@@ -1,0 +1,16 @@
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\bin\Debug\net9.0\DataContext.deps.json
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\bin\Debug\net9.0\DataContext.dll
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\bin\Debug\net9.0\DataContext.pdb
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\bin\Debug\net9.0\AppData.dll
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\bin\Debug\net9.0\AppData.pdb
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\DataContext.csproj.AssemblyReference.cache
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\DataContext.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\DataContext.AssemblyInfoInputs.cache
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\DataContext.AssemblyInfo.cs
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\DataContext.csproj.CoreCompileInputs.cache
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\DataContext.sourcelink.json
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\DataCont.586C3566.Up2Date
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\DataContext.dll
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\refint\DataContext.dll
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\DataContext.pdb
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\ref\DataContext.dll
