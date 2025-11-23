@@ -3983,7 +3983,9 @@
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
           "AppData": "1.0.0",
-          "Microsoft.EntityFrameworkCore": "9.0.5"
+          "Microsoft.EntityFrameworkCore": "9.0.5",
+          "Microsoft.EntityFrameworkCore.Relational": "9.0.5",
+          "Microsoft.EntityFrameworkCore.SqlServer": "9.0.5"
         },
         "compile": {
           "bin/placeholder/DataContext.dll": {}
