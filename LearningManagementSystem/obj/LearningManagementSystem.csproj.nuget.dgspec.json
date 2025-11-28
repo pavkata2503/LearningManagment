@@ -309,7 +309,14 @@
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\pavka\\OneDrive\\Documents\\Програвиране C#\\LearningManagment\\AppData\\AppData.csproj": {
+                "projectPath": "C:\\Users\\pavka\\OneDrive\\Documents\\Програвиране C#\\LearningManagment\\AppData\\AppData.csproj"
+              },
+              "C:\\Users\\pavka\\OneDrive\\Documents\\Програвиране C#\\LearningManagment\\DataContext\\DataContext.csproj": {
+                "projectPath": "C:\\Users\\pavka\\OneDrive\\Documents\\Програвиране C#\\LearningManagment\\DataContext\\DataContext.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -339,6 +346,10 @@
             "Microsoft.AspNetCore.Http.Features": {
               "target": "Package",
               "version": "[2.3.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.5, )"
             },
             "Microsoft.Extensions.Hosting.Abstractions": {
               "target": "Package",

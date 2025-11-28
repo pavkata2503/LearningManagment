@@ -1,0 +1,9 @@
+﻿@if (!User.IsInRole("Student"))
+{
+    <a style="background:orange;"
+       asp-action="Add"
+       asp-controller="StudyMaterials"
+       class="btn d-block mb-3 mt-3">
+        Добави нов материал
+    </a>
+}

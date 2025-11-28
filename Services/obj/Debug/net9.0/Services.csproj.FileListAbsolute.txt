@@ -11,3 +11,8 @@ C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\Services\obj\Debug\net9.0\refint\Services.dll
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\Services\obj\Debug\net9.0\Services.pdb
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\Services\obj\Debug\net9.0\ref\Services.dll
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\Services\bin\Debug\net9.0\AppData.dll
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\Services\bin\Debug\net9.0\DataContext.dll
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\Services\bin\Debug\net9.0\AppData.pdb
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\Services\bin\Debug\net9.0\DataContext.pdb
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\Services\obj\Debug\net9.0\Services.csproj.Up2Date

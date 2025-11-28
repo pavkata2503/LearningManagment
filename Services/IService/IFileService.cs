@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Services.IService
 {
-    internal interface IFileService
+    public interface IFileService
     {
         Tuple<int, string> SaveImage(IFormFile imageFile);
         public bool DeleteImage(string imageFileName);

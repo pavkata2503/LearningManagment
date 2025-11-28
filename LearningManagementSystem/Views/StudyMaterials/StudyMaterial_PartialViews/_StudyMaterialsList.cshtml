@@ -1,0 +1,57 @@
+﻿@model IEnumerable<AppData.Models.StudyMaterial>
+
+@foreach (var material in Model)
+{
+    <article class="postcard light blue search">
+
+        <a class="postcard__img_link" href="#">
+            <img class="postcard__img" src="@material.URL" />
+        </a>
+
+        <div class="postcard__text t-dark">
+            <h1 class="postcard__title blue"><a>@material.Title</a></h1>
+
+            <div class="postcard__subtitle small">
+                <time>
+                    <i class="fas fa-calendar-alt mr-2"></i>@material.CreateDate.ToShortDateString()
+                </time>
+            </div>
+
+            <div class="postcard__bar"></div>
+
+            <div class="mat-des">
+
+                <ul class="postcard__tagbox">
+                    <li class="tag__item">@material.CreatedByName</li>
+                    <li class="tag__item">@material.Subject</li>
+                    <li class="tag__item play blue">@material.Class клас</li>
+                </ul>
+
+                <ul class="postcard__tagbox">
+
+                    @if (User.IsInRole("Teacher"))
+                    {
+                        <li class="tag__item">
+                            <a asp-action="Edit" asp-route-id="@material.Id" class="btn btn-secondary">Редактирай</a>
+                        </li>
+                    }
+
+                    <li class="tag__item">
+                        <a asp-action="Details" asp-route-id="@material.Id" class="btn btn-secondary">Прегледай</a>
+                    </li>
+
+                    @if (User.IsInRole("Teacher"))
+                    {
+                        <li class="tag__item">
+                            <form asp-action="Delete" asp-route-id="@material.Id" method="post">
+                                <button type="submit" class="btn btn-secondary">Изтрий</button>
+                            </form>
+                        </li>
+                    }
+
+                </ul>
+
+            </div>
+        </div>
+    </article>
+}

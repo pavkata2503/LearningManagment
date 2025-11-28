@@ -2,6 +2,8 @@ using AppData.Models;
 using DataContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Services;
+using Services.IService;
 
 namespace LearningManagementSystem
 {
@@ -20,6 +22,9 @@ namespace LearningManagementSystem
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IStudyMaterialService, StudyMaterialService>();
+            builder.Services.AddScoped<IFileService, FileService>();
+
 
             var app = builder.Build();
 

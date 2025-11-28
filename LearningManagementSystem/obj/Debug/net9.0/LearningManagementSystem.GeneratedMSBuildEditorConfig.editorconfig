@@ -208,6 +208,30 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/pavka/OneDrive/Documents/Програвиране C\#/LearningManagment/LearningManagementSystem/Views/StudyMaterials/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZHlNYXRlcmlhbHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pavka/OneDrive/Documents/Програвиране C\#/LearningManagment/LearningManagementSystem/Views/StudyMaterials/StudyMaterial_PartialViews/_AddButton.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZHlNYXRlcmlhbHNcU3R1ZHlNYXRlcmlhbF9QYXJ0aWFsVmlld3NcX0FkZEJ1dHRvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pavka/OneDrive/Documents/Програвиране C\#/LearningManagment/LearningManagementSystem/Views/StudyMaterials/StudyMaterial_PartialViews/_Filters.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZHlNYXRlcmlhbHNcU3R1ZHlNYXRlcmlhbF9QYXJ0aWFsVmlld3NcX0ZpbHRlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pavka/OneDrive/Documents/Програвиране C\#/LearningManagment/LearningManagementSystem/Views/StudyMaterials/StudyMaterial_PartialViews/_PageSizeAndSorting.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZHlNYXRlcmlhbHNcU3R1ZHlNYXRlcmlhbF9QYXJ0aWFsVmlld3NcX1BhZ2VTaXplQW5kU29ydGluZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pavka/OneDrive/Documents/Програвиране C\#/LearningManagment/LearningManagementSystem/Views/StudyMaterials/StudyMaterial_PartialViews/_Pagination.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZHlNYXRlcmlhbHNcU3R1ZHlNYXRlcmlhbF9QYXJ0aWFsVmlld3NcX1BhZ2luYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pavka/OneDrive/Documents/Програвиране C\#/LearningManagment/LearningManagementSystem/Views/StudyMaterials/StudyMaterial_PartialViews/_StudyMaterialsList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZHlNYXRlcmlhbHNcU3R1ZHlNYXRlcmlhbF9QYXJ0aWFsVmlld3NcX1N0dWR5TWF0ZXJpYWxzTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/pavka/OneDrive/Documents/Програвиране C\#/LearningManagment/LearningManagementSystem/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

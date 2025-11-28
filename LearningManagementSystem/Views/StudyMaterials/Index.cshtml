@@ -1,0 +1,27 @@
+﻿@model IEnumerable<AppData.Models.StudyMaterial>
+
+@{
+    ViewData["Title"] = "Материали";
+}
+
+<div class="container mt-0">
+
+    @await Html.PartialAsync("StudyMaterial_PartialViews/_PageSizeAndSorting")
+
+    <hr />
+
+    @await Html.PartialAsync("StudyMaterial_PartialViews/_Filters")
+
+    @await Html.PartialAsync("StudyMaterial_PartialViews/_AddButton")
+
+</div>
+
+<div class="container py-2">
+    <div class="h1 text-center text-dark" id="pageHeaderTitle">Материали</div>
+
+    @await Html.PartialAsync("StudyMaterial_PartialViews/_StudyMaterialsList", Model)
+</div>
+
+<div class="container d-flex justify-content-center mb-5">
+    @await Html.PartialAsync("StudyMaterial_PartialViews/_Pagination")
+</div>

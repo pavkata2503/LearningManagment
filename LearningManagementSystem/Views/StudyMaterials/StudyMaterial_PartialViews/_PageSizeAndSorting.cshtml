@@ -1,0 +1,27 @@
+﻿<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Избери брой на материалите:</label>
+            <select class="form-control" id="pageSize" name="pageSize">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+            </select>
+            <button style="background:orange;" class="btn mt-2" id="applyPageSize">Приложи</button>
+        </div>
+    </div>
+
+    <div class="col-md-6 mt-4">
+        <form class="form-inline" asp-controller="StudyMaterials" asp-action="Index" method="get">
+            <div class="form-group">
+                <label>Сортирай по:</label>
+                <select class="form-control ml-2" id="sortByDate" name="sortOrder">
+                    <option value="">Избери</option>
+                    <option value="date_asc">Най-нови</option>
+                    <option value="date_desc">Най-стари</option>
+                </select>
+                <button style="background:orange;" type="submit" class="btn ml-2">Приложи</button>
+            </div>
+        </form>
+    </div>
+</div>

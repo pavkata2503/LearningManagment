@@ -1,0 +1,56 @@
+﻿@using AppData.Enums
+
+<form asp-controller="StudyMaterials" asp-action="Index" method="get">
+
+    <div class="row">
+        <div class="col-md-3">
+            <label>Търси:</label>
+            <input type="search" class="form-control" name="search" value="@ViewBag.Search" />
+        </div>
+
+        <div class="col-md-3">
+            <label>Учител:</label>
+            <input type="search" class="form-control" name="created-name" value="@ViewBag.CreatedName" />
+        </div>
+
+        <div class="col-md-3">
+            <label>Категория:</label>
+            <select class="form-control" name="category">
+                <option value="">Избери Категория</option>
+                @foreach (var category in Enum.GetValues(typeof(Category)))
+                {
+                    <option value="@category">@category</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label>Предмет:</label>
+            <input type="search" class="form-control" name="subject" value="@ViewBag.Subject" />
+        </div>
+    </div>
+
+    <div class="row mt-3">
+
+        <div class="col-md-3">
+            <label>Тип файл:</label>
+            <select class="form-control" name="typefile">
+                <option value="">Избери Тип Файл</option>
+                @foreach (var typefile in Enum.GetValues(typeof(TypeFile)))
+                {
+                    <option value="@typefile">@typefile</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label>Клас:</label>
+            <input type="search" class="form-control" name="classFilter" value="@ViewBag.ClassFilter" />
+        </div>
+
+        <div class="col-md-3 mt-4">
+            <button style="background:orange;" type="submit" class="btn">Филтрирай</button>
+        </div>
+
+    </div>
+</form>
