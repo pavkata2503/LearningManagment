@@ -35,7 +35,7 @@ namespace LearningManagementSystem.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Teacher")]
+        //[Authorize(Roles = "Teacher")]
         public IActionResult Add()
         {
             return View();
@@ -44,40 +44,22 @@ namespace LearningManagementSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(StudyMaterial studyMaterial)
         {
-
-            var userId = User.Claims.FirstOrDefault(a => a.Type == ClaimTypes.NameIdentifier)?.Value;
-
-            if (userId == null)
+            if (!ModelState.IsValid)
             {
-                throw new ArgumentException("Невалиден потребител.");
+                return View(studyMaterial);
             }
 
-            var user = await _userManager.FindByIdAsync(userId);
+            var result = await _service.AddAsync(studyMaterial, User);
 
-            studyMaterial.CreatedByName = user.Name;
+            if (!result.IsSuccess)
+            {
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                return View(studyMaterial);
+            }
 
-            if (studyMaterial.FileUpload != null)
-            {
-                var fileResult = _fileService.SaveImage(studyMaterial.FileUpload);
-                if (fileResult.Item1 == 1)
-                {
-                    studyMaterial.FileTitle = studyMaterial.Title;
-                    studyMaterial.FileTitle = fileResult.Item2;
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, fileResult.Item2);
-                    return View(studyMaterial);
-                }
-            }
-            if (ModelState.IsValid)
-            {
-                context.StudyMaterials.Add(studyMaterial);
-                context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View("Add", studyMaterial);
+            return RedirectToAction(nameof(Index));
         }
+
         [Authorize(Roles = "Teacher")]
         public IActionResult Edit(int id)
         {
@@ -101,7 +83,7 @@ namespace LearningManagementSystem.Controllers
                 throw new ArgumentException("Invalid user.");
             }
             var user = await _userManager.FindByIdAsync(userId);
-            studyMaterial.CreatedByName = user.Name;
+            studyMaterial.CreatedByName = user.Email;
             if (studyMaterial.FileUpload != null)
             {
                 var fileResult = _fileService.SaveImage(studyMaterial.FileUpload);

@@ -1,11 +1,13 @@
 ﻿using AppData.Enums;
 using AppData.Models;
 using DataContext;
+using Microsoft.AspNetCore.Identity;
 using Services.IService;
 using Services.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,10 +16,17 @@ namespace Services
     public class StudyMaterialService:IStudyMaterialService
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IFileService _fileService;
 
-        public StudyMaterialService(ApplicationDbContext context)
+        public StudyMaterialService(
+       ApplicationDbContext context,
+       UserManager<ApplicationUser> userManager,
+       IFileService fileService)
         {
             _context = context;
+            _userManager = userManager;
+            _fileService = fileService;
         }
 
         public async Task<PaginatedList<StudyMaterial>> GetFilteredMaterials(StudyMaterialFilterModel filter)
@@ -63,5 +72,41 @@ namespace Services
             return await PaginatedList<StudyMaterial>
                 .CreateAsync(materials, filter.PageNumber, filter.PageSize);
         }
+
+        public async Task<(bool IsSuccess, string ErrorMessage)> AddAsync(
+       StudyMaterial studyMaterial,
+       ClaimsPrincipal userClaims)
+        {
+            var userId = userClaims
+                .Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)
+                ?.Value;
+
+            if (userId == null)
+            {
+                return (false, "Невалиден потребител.");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            studyMaterial.CreatedByName = user.Email;
+
+            if (studyMaterial.FileUpload != null)
+            {
+                var fileResult = _fileService.SaveImage(studyMaterial.FileUpload);
+
+                if (fileResult.Item1 != 1)
+                {
+                    return (false, fileResult.Item2);
+                }
+
+                studyMaterial.FileTitle = fileResult.Item2;
+            }
+
+            _context.StudyMaterials.Add(studyMaterial);
+            await _context.SaveChangesAsync();
+
+            return (true, string.Empty);
+        }
     }
 }
+

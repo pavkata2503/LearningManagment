@@ -1,0 +1,58 @@
+﻿@using AppData.Enums
+@model StudyMaterial
+
+<div class="container">
+    <h2>Създай учебен материал</h2>
+
+    <form method="post" asp-action="Add" asp-controller="StudyMaterials" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Заглавие</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Качи файл</label>
+            <input type="file" asp-for="FileUpload" class="form-control" />
+            <span asp-validation-for="FileUpload" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Тип на файла</label>
+            <select asp-for="TypeFile" asp-items="Html.GetEnumSelectList<TypeFile>()" class="form-control">
+                <option value="">Избери тип на файла</option>
+            </select>
+            <span asp-validation-for="TypeFile" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>URL</label>
+            <input asp-for="URL" class="form-control" />
+            <span asp-validation-for="URL" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Описание</label>
+            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Категория</label>
+            <select asp-for="Category" asp-items="Html.GetEnumSelectList<Category>()" class="form-control">
+                <option value="">Избери категория</option>
+            </select>
+            <span asp-validation-for="Category" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Дата</label>
+            <input asp-for="CreateDate" type="date" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Предмет</label>
+            <input asp-for="Subject" class="form-control" />
+            <span asp-validation-for="Subject" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Клас</label>
+            <input asp-for="Class" class="form-control" />
+            <span asp-validation-for="Class" class="text-danger"></span>
+        </div>
+        <button style="background:orange;" type="submit" class="btn mb-3">Създай</button>
+    </form>
+</div>

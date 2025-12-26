@@ -30,10 +30,8 @@ namespace AppData.Models
         [EnumDataType(typeof(TypeFile))]
         [Required(ErrorMessage = "Вида на файла е задължителен")]
         public TypeFile TypeFile { get; set; }
-        [ValidateNever]
-        public int AppliationUserId { get; set; }
-        [ValidateNever]
-        public ApplicationUser ApplicationUser { get; set; }
+        public int? AppliationUserId { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
 
         [Required(ErrorMessage = "Предметът е задължителен")]
         [StringLength(50, ErrorMessage = "Описанието не трябва да надвишава 50 знака")]
@@ -42,6 +40,7 @@ namespace AppData.Models
         [Range(1, 12, ErrorMessage = "Класът е между 1 и 12")]
         public int Class { get; set; }
         public DateTime CreateDate { get; set; }
+        public string? PhoneNumber { get; set; }
 
         [ValidateNever]
         public string CreatedByName { get; set; }

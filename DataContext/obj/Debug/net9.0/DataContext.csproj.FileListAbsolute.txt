@@ -1,4 +1,5 @@
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\bin\Debug\net9.0\DataContext.deps.json
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\bin\Debug\net9.0\DataContext.runtimeconfig.json
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\bin\Debug\net9.0\DataContext.dll
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\bin\Debug\net9.0\DataContext.pdb
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\bin\Debug\net9.0\AppData.dll
@@ -13,4 +14,5 @@ C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\DataContext.dll
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\refint\DataContext.dll
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\DataContext.pdb
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\DataContext.genruntimeconfig.cache
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\DataContext\obj\Debug\net9.0\ref\DataContext.dll

@@ -50,6 +50,7 @@ C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\css\home.css
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
@@ -60,6 +61,7 @@ C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\js\site.js
+wwwroot\css\home.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\js\site.js

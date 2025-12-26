@@ -9,7 +9,7 @@ namespace LearningManagementSystem
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +19,11 @@ namespace LearningManagementSystem
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+    options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultUI().AddDefaultTokenProviders();
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IStudyMaterialService, StudyMaterialService>();
             builder.Services.AddScoped<IFileService, FileService>();
@@ -52,6 +55,35 @@ namespace LearningManagementSystem
                 .WithStaticAssets();
             app.MapRazorPages()
                .WithStaticAssets();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                await DbSeeder.SeedRolesAndAdminAsync(scope.ServiceProvider);
+                var serviceProvider = scope.ServiceProvider;
+                var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
+                //var dbSeeder = new DbSeeder();
+                //await dbSeeder.CreateMaterialSeeder(dbContext);
+            }
+
+            //using (var scope = app.Services.CreateScope())
+            //{
+            //    var services = scope.ServiceProvider;
+
+            //    await DbSeeder.SeedRolesAndAdminAsync(services);
+
+            //    var context = services.GetRequiredService<ApplicationDbContext>();
+            //    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
+            //    //var seeder = new DbSeeder();
+            //    //await seeder.CreateMaterialSeeder(context);
+            //}
+
+
+            //using (var scope = app.Services.CreateScope())
+            //{
+            //    await DbSeeder.SeedUsersAsync(scope.ServiceProvider);
+            //}
+
 
             app.Run();
         }

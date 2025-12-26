@@ -3,6 +3,7 @@
 #nullable disable
 
 using AppData.Models;
+using DataContext;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -79,6 +80,11 @@ namespace LearningManagementSystem.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+            public string Name { get; set; }
+            public string? FirstName { get; set; }
+            public string? LastName { get; set; }
+            public string? PhoneNumber { get; set; }
+            public int? Class { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -98,6 +104,9 @@ namespace LearningManagementSystem.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [RegularExpression("^(Teacher|Student)$", ErrorMessage = "The role should be 'Teacher' or 'Student' only.")]
+            public string? Role { get; set; }
         }
 
 
@@ -114,13 +123,31 @@ namespace LearningManagementSystem.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-
+                user.EmailConfirmed = true; // Добавете този ред преди CreateAsync
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+                user.PhoneNumber = Input.PhoneNumber;
+                user.Email = Input.Email;
+                user.Class = Input.Class;
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
+                    if (Input.Role == "Teacher")
+                    {
+                        await _userManager.AddToRoleAsync(user, Roles.Teacher.ToString());
+                    }
+                    else if (Input.Role == "Student")
+                    {
+                        await _userManager.AddToRoleAsync(user, Roles.Student.ToString());
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, Roles.Student.ToString());
+                    }
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
@@ -141,8 +168,11 @@ namespace LearningManagementSystem.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        if (!User.IsInRole("Admin"))
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            return LocalRedirect(returnUrl);
+                        }
                     }
                 }
                 foreach (var error in result.Errors)
