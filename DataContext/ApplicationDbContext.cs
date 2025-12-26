@@ -18,5 +18,8 @@ namespace DataContext
         public DbSet<StudyMaterial> StudyMaterials { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<Option> Options { get; set; }
+        public DbSet<UserTestResult> UserTestResults { get; set; }
     }
 }

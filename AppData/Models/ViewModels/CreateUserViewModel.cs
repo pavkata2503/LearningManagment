@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppData.Models
+namespace AppData.Models.ViewModels
 {
-    internal class UserViewModel
+    internal class CreateUserViewModel
     {
         [Required]
         public string UserName { get; set; }

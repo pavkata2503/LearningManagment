@@ -36,9 +36,11 @@
                         </li>
                     }
 
-                    <li class="tag__item">
+                    @* <li class="tag__item">
                         <a asp-action="Details" asp-route-id="@material.Id" class="btn btn-secondary">Прегледай</a>
-                    </li>
+                    </li> *@
+
+                    <a asp-controller="Tests" asp-action="Create" asp-route-materialId="@material.Id" class="btn btn-sm btn-info">Добави тест</a>
 
                     @if (User.IsInRole("Teacher"))
                     {

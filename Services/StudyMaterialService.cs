@@ -1,5 +1,6 @@
 ﻿using AppData.Enums;
 using AppData.Models;
+using AppData.Models.ViewModels;
 using DataContext;
 using Microsoft.AspNetCore.Identity;
 using Services.IService;

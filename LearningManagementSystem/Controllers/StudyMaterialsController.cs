@@ -1,5 +1,6 @@
 ﻿using AppData.Enums;
 using AppData.Models;
+using AppData.Models.ViewModels;
 using DataContext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

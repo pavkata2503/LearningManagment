@@ -1,0 +1,129 @@
+﻿@model CreateTestViewModel
+@using AppData.Enums
+@using AppData.Models.ViewModels
+
+<div class="container">
+    <h2>Добавяне на тест към: @Model.MaterialTitle</h2>
+    <hr />
+
+    <form asp-action="Create" method="post" id="testForm">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="MaterialId" />
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div id="questionsContainer">
+        </div>
+
+        <div class="mt-4 pb-5">
+            <button type="button" class="btn btn-outline-primary" onclick="addQuestion()">+ Добави въпрос</button>
+            <button type="submit" class="btn btn-success float-end">Запази теста</button>
+        </div>
+    </form>
+</div>
+
+<template id="questionTemplate">
+    <div class="card mb-4 question-item" data-index="{qIdx}">
+        <div class="card-header d-flex justify-content-between bg-light">
+            <h5 class="mb-0">Въпрос #{qNum}</h5>
+            <button type="button" class="btn btn-sm btn-danger" onclick="removeQuestion(this)">Премахни въпрос</button>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label class="form-label">Текст на въпроса</label>
+                <input name="Questions[{qIdx}].Content" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Тип въпрос</label>
+                <select name="Questions[{qIdx}].Type" class="form-select type-selector" onchange="toggleOptions(this, {qIdx})">
+                    <option value="0">Избираем отговор</option>
+                    <option value="1">Отворен отговор</option>
+                </select>
+            </div>
+
+            <div class="options-section" id="optionsContainer_{qIdx}">
+                <h6>Опции за отговор (маркирай верния):</h6>
+                <div class="options-list"></div>
+                <button type="button" class="btn btn-sm btn-link" onclick="addOption({qIdx})">+ Добави опция</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="optionTemplate">
+    <div class="input-group mb-2 option-item">
+        <div class="input-group-text">
+            <input type="radio" name="correctAnswer_{qIdx}" class="is-correct-radio" onchange="updateCorrectStatus({qIdx})">
+            <input type="hidden" name="Questions[{qIdx}].Options[{oIdx}].IsCorrect" class="is-correct-hidden" value="false" />
+        </div>
+        <input name="Questions[{qIdx}].Options[{oIdx}].Text" class="form-control opt-text" placeholder="Текст на отговора" required />
+        <button type="button" class="btn btn-outline-danger" onclick="this.closest('.option-item').remove()">X</button>
+    </div>
+</template>
+
+@section Scripts {
+    <script>
+        let questionCount = 0;
+
+        function addQuestion() {
+            const container = document.getElementById('questionsContainer');
+            const template = document.getElementById('questionTemplate').innerHTML;
+
+            const html = template
+                .replace(/{qIdx}/g, questionCount)
+                .replace(/{qNum}/g, questionCount + 1);
+
+            container.insertAdjacentHTML('beforeend', html);
+            addOption(questionCount); // Поне една опция в началото
+            questionCount++;
+        }
+
+        function removeQuestion(btn) {
+            btn.closest('.question-item').remove();
+            // Забележка: В ASP.NET Core индексите трябва да са поредни (0,1,2...).
+            // Ако изтриеш въпрос по средата, ще има проблем. Най-добре е да не се трие или да се преиндексира всичко.
+        }
+
+        function addOption(qIdx) {
+            const container = document.querySelector(`#optionsContainer_${qIdx} .options-list`);
+            const oIdx = container.querySelectorAll('.option-item').length;
+            const template = document.getElementById('optionTemplate').innerHTML;
+
+            const html = template
+                .replace(/{qIdx}/g, qIdx)
+                .replace(/{oIdx}/g, oIdx);
+
+            container.insertAdjacentHTML('beforeend', html);
+        }
+
+                function toggleOptions(select, qIdx) {
+            const section = document.getElementById(`optionsContainer_${qIdx}`);
+            const optionsList = section.querySelector('.options-list');
+
+            if (select.value == "1") { // Отворен отговор
+                section.style.display = "none";
+                // ИЗТРИВАМЕ всички добавени опции, за да не пречат на валидацията
+                optionsList.innerHTML = '';
+            } else { // Избираем отговор
+                section.style.display = "block";
+                // Ако няма нито една опция, добавяме една автоматично
+                if (optionsList.children.length === 0) {
+                    addOption(qIdx);
+                }
+            }
+        }
+
+        function updateCorrectStatus(qIdx) {
+            const container = document.getElementById(`optionsContainer_${qIdx}`);
+            container.querySelectorAll('.is-correct-hidden').forEach(h => h.value = "false");
+
+            const checkedRadio = container.querySelector('.is-correct-radio:checked');
+            if(checkedRadio) {
+                checkedRadio.nextElementSibling.value = "true";
+            }
+        }
+
+        // Първоначален въпрос
+        addQuestion();
+    </script>
+}
