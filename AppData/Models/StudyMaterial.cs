@@ -48,5 +48,7 @@ namespace AppData.Models
         [NotMapped]
         public IFormFile? FileUpload { get; set; }
         public string? FileTitle { get; set; }
+
+        public List<Question>? Questions { get; set; } = new List<Question>();
     }
 }

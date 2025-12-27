@@ -1,37 +1,53 @@
-﻿@using AppData.Enums
+﻿@model SolveTestViewModel
+@using AppData.Enums
 @using AppData.Models.ViewModels
-@model SolveTestViewModel
 
-<h2>Решаване на тест</h2>
-
-<form asp-action="Submit" method="post">
-    <input type="hidden" asp-for="MaterialId" />
-
-    @for (int i = 0; i < Model.Questions.Count; i++)
-    {
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5>@Model.Questions[i].Content</h5>
-                <input type="hidden" asp-for="Questions[i].QuestionId" />
-                <input type="hidden" asp-for="Questions[i].Type" />
-
-                @if (Model.Questions[i].Type == QuestionType.MultipleChoice)
-                {
-                    @foreach (var opt in Model.Questions[i].Options)
-                    {
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio"
-                                   name="Questions[@i].SelectedOptionId" value="@opt.Id">
-                            <label class="form-check-label">@opt.Text</label>
-                        </div>
-                    }
-                }
-                else
-                {
-                    <textarea asp-for="Questions[i].OpenAnswer" class="form-control" rows="3"></textarea>
-                }
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>@Model.Title</h2>
+                <span class="badge bg-secondary">Тест</span>
             </div>
+
+            <form asp-action="Solve" method="post">
+                <input type="hidden" asp-for="MaterialId" />
+
+                @for (int i = 0; i < Model.Questions.Count; i++)
+                {
+                    <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="mb-3">@(i + 1). @Model.Questions[i].Content</h5>
+                            <input type="hidden" asp-for="Questions[i].QuestionId" />
+
+                            @if (Model.Questions[i].Type == QuestionType.MultipleChoice)
+                            {
+                                @foreach (var opt in Model.Questions[i].Options)
+                                {
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio"
+                                               name="Questions[@i].SelectedOptionId"
+                                               id="opt_@opt.Id"
+                                               value="@opt.Id" required>
+                                        <label class="form-check-label" for="opt_@opt.Id">
+                                            @opt.Text
+                                        </label>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <textarea asp-for="Questions[i].OpenAnswer" class="form-control" rows="3" placeholder="Напишете вашия отговор тук..."></textarea>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success btn-lg">Предай теста</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Отказ</a>
+                </div>
+            </form>
         </div>
-    }
-    <button type="submit" class="btn btn-primary">Предай теста</button>
-</form>
+    </div>
+</div>

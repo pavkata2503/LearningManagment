@@ -27,6 +27,7 @@ namespace LearningManagementSystem
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IStudyMaterialService, StudyMaterialService>();
             builder.Services.AddScoped<IFileService, FileService>();
+            builder.Services.AddScoped<IMessageService, MessageService>();
 
 
             var app = builder.Build();

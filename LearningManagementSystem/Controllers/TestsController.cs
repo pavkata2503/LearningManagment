@@ -19,28 +19,28 @@ namespace LearningManagementSystem.Controllers
             _context = context;
         }
 
-        // Показване на теста
-        public async Task<IActionResult> Solve(int materialId)
-        {
-            var questions = await _context.Questions
-                .Include(q => q.Options)
-                .Where(q => q.StudyMaterialId == materialId)
-                .ToListAsync();
+        //// Показване на теста
+        //public async Task<IActionResult> Solve(int materialId)
+        //{
+        //    var questions = await _context.Questions
+        //        .Include(q => q.Options)
+        //        .Where(q => q.StudyMaterialId == materialId)
+        //        .ToListAsync();
 
-            var model = new SolveTestViewModel
-            {
-                MaterialId = materialId,
-                Questions = questions.Select(q => new QuestionViewModel
-                {
-                    QuestionId = q.Id,
-                    Content = q.Content,
-                    Type = q.Type,
-                    Options = q.Options.Select(o => new OptionViewModel { Id = o.Id, Text = o.Text }).ToList()
-                }).ToList()
-            };
+        //    var model = new SolveTestViewModel
+        //    {
+        //        MaterialId = materialId,
+        //        Questions = questions.Select(q => new QuestionViewModel
+        //        {
+        //            QuestionId = q.Id,
+        //            Content = q.Content,
+        //            Type = q.Type,
+        //            Options = q.Options.Select(o => new OptionViewModel { Id = o.Id, Text = o.Text }).ToList()
+        //        }).ToList()
+        //    };
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
         // Изпращане на отговорите
         [HttpPost]
@@ -129,6 +129,120 @@ namespace LearningManagementSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "StudyMaterials");
             }
+            return View(model);
+
+
+        }
+
+        // 1. Списък на всички налични тестове
+        public async Task<IActionResult> Index()
+        {
+            var tests = await _context.StudyMaterials
+                .Where(m => _context.Questions.Any(q => q.StudyMaterialId == m.Id)) // Вземи само материали, които имат въпроси
+                .Select(m => new TestListViewModel
+                {
+                    MaterialId = m.Id,
+                    Title = m.Title,
+                    Category = m.Category.ToString(),
+                    QuestionsCount = _context.Questions.Count(q => q.StudyMaterialId == m.Id)
+                }).ToListAsync();
+
+            return View(tests);
+        }
+
+        // 2. Страница за решаване (GET)
+        public async Task<IActionResult> Solve(int id)
+        {
+            var material = await _context.StudyMaterials
+                .Include(m => m.Questions)
+                .ThenInclude(q => q.Options)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (material == null) return NotFound();
+
+            var model = new SolveTestViewModel
+            {
+                MaterialId = material.Id,
+                Title = material.Title,
+                Questions = material.Questions.Select(q => new QuestionViewModel
+                {
+                    QuestionId = q.Id,
+                    Content = q.Content,
+                    Type = q.Type,
+                    Options = q.Options.Select(o => new OptionViewModel
+                    {
+                        Id = o.Id,
+                        Text = o.Text
+                    }).ToList()
+                }).ToList()
+            };
+
+            return View(model);
+        }
+
+        // 3. Обработка на отговорите (POST)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Solve(SolveTestViewModel model)
+        {
+            int correctCount = 0;
+            var questions = await _context.Questions
+                .Include(q => q.Options)
+                .Where(q => q.StudyMaterialId == model.MaterialId)
+                .ToListAsync();
+
+            foreach (var submittedQ in model.Questions)
+            {
+                var dbQ = questions.FirstOrDefault(q => q.Id == submittedQ.QuestionId);
+                if (dbQ == null) continue;
+
+                if (dbQ.Type == QuestionType.MultipleChoice)
+                {
+                    // Проверка дали избраната опция е маркирана като вярна в базата
+                    if (dbQ.Options.Any(o => o.Id == submittedQ.SelectedOptionId && o.IsCorrect))
+                    {
+                        correctCount++;
+                    }
+                }
+                else // За отворени въпроси - тук е примерна логика за точно съвпадение
+                {
+                    // В реална система отворените въпроси често се проверяват ръчно, 
+                    // но тук можем да сравняваме текст (ако си добавил CorrectTextAnswer в модела)
+                }
+            }
+
+            // Записваме резултата в базата
+            var result = new UserTestResult
+            {
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                StudyMaterialId = model.MaterialId,
+                Score = correctCount,
+                CompletedOn = DateTime.Now
+            };
+            _context.UserTestResults.Add(result);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Result", new { id = result.Id });
+        }
+
+        // 4. Показване на крайния резултат
+        public async Task<IActionResult> Result(int id)
+        {
+            var result = await _context.UserTestResults
+                .Include(r => r.StudyMaterial)
+                .FirstOrDefaultAsync(r => r.Id == id);
+
+            if (result == null) return NotFound();
+
+            var totalQuestions = await _context.Questions.CountAsync(q => q.StudyMaterialId == result.StudyMaterialId);
+
+            var model = new TestResultViewModel
+            {
+                MaterialTitle = result.StudyMaterial.Title,
+                TotalQuestions = totalQuestions,
+                CorrectAnswers = result.Score
+            };
+
             return View(model);
         }
     }

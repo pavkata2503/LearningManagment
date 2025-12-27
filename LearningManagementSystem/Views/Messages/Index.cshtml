@@ -1,0 +1,106 @@
+﻿@model List<Message>
+
+@{
+    ViewData["Title"] = "Messages";
+}
+
+<h2 class="mb-3">Messages</h2>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-3">
+        <input name="receiver" class="form-control" placeholder="Sender" />
+    </div>
+
+    <div class="col-md-3">
+        <select name="isRead" class="form-select">
+            <option value="">All</option>
+            <option value="true">Read</option>
+            <option value="false">Unread</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <select name="pageSize" class="form-select">
+            @foreach (var size in ViewBag.PageSizeOptions)
+            {
+                <option value="@size" selected="@(size == ViewBag.PageSize)">
+                    @size
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">
+            Filter
+        </button>
+    </div>
+
+    <div class="col-md-2">
+        <a asp-action="Add" class="btn btn-success w-100">
+            New Message
+        </a>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Sender</th>
+            <th>Message</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th style="width: 160px"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var msg in Model)
+        {
+            <tr class="@(msg.IsRead ? "" : "table-warning")">
+                <td>@msg.Sender</td>
+                <td>@msg.Text</td>
+                <td>@msg.SendDate.ToString("dd.MM.yyyy HH:mm")</td>
+                <td>
+                    @(msg.IsRead ? "Read" : "Unread")
+                </td>
+                <td>
+                    @if (!msg.IsRead)
+                    {
+                        <form asp-action="MarkAsRead" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@msg.Id" />
+                            <button class="btn btn-sm btn-outline-success">
+                                Read
+                            </button>
+                        </form>
+                    }
+
+                    <form asp-action="Delete" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@msg.Id" />
+                        <button class="btn btn-sm btn-outline-danger">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (ViewBag.TotalPages > 1)
+{
+    <nav>
+        <ul class="pagination">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-pageNumber="@i"
+                       asp-route-pageSize="@ViewBag.PageSize">
+                        @i
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

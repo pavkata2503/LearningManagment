@@ -17,7 +17,7 @@ namespace AppData.Models
         public string Receiver { get; set; }
         public string Sender { get; set; }
         public string SenderEmail { get; set; }
-        public int AppliationUserId { get; set; }
+        public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         public DateTime SendDate { get; set; }
         public bool IsRead { get; set; } // Поле за статус на прочитане

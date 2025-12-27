@@ -107,9 +107,6 @@ namespace DataContext.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AppliationUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ApplicationUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -276,6 +273,8 @@ namespace DataContext.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("StudyMaterialId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("UserTestResults");
@@ -439,7 +438,7 @@ namespace DataContext.Migrations
             modelBuilder.Entity("AppData.Models.Question", b =>
                 {
                     b.HasOne("AppData.Models.StudyMaterial", "StudyMaterial")
-                        .WithMany()
+                        .WithMany("Questions")
                         .HasForeignKey("StudyMaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -458,11 +457,19 @@ namespace DataContext.Migrations
 
             modelBuilder.Entity("AppData.Models.UserTestResult", b =>
                 {
+                    b.HasOne("AppData.Models.StudyMaterial", "StudyMaterial")
+                        .WithMany()
+                        .HasForeignKey("StudyMaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AppData.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("StudyMaterial");
 
                     b.Navigation("User");
                 });
@@ -528,6 +535,11 @@ namespace DataContext.Migrations
             modelBuilder.Entity("AppData.Models.Question", b =>
                 {
                     b.Navigation("Options");
+                });
+
+            modelBuilder.Entity("AppData.Models.StudyMaterial", b =>
+                {
+                    b.Navigation("Questions");
                 });
 #pragma warning restore 612, 618
         }

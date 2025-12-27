@@ -196,6 +196,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/pavka/OneDrive/Documents/Програвиране C\#/LearningManagment/LearningManagementSystem/Views/Messages/Add.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVzc2FnZXNcQWRkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pavka/OneDrive/Documents/Програвиране C\#/LearningManagment/LearningManagementSystem/Views/Messages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVzc2FnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/pavka/OneDrive/Documents/Програвиране C\#/LearningManagment/LearningManagementSystem/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -242,6 +250,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/pavka/OneDrive/Documents/Програвиране C\#/LearningManagment/LearningManagementSystem/Views/Tests/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVzdHNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pavka/OneDrive/Documents/Програвиране C\#/LearningManagment/LearningManagementSystem/Views/Tests/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVzdHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pavka/OneDrive/Documents/Програвиране C\#/LearningManagment/LearningManagementSystem/Views/Tests/Result.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVzdHNcUmVzdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/pavka/OneDrive/Documents/Програвиране C\#/LearningManagment/LearningManagementSystem/Views/Tests/Solve.cshtml]
