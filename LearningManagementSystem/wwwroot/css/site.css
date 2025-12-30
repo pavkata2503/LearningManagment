@@ -1,4 +1,4 @@
-html {
+﻿/*html {
   font-size: 14px;
 }
 
@@ -28,4 +28,68 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}*/
+
+/* Orange & Brown Theme */
+:root {
+    --primary-orange: #e67e22;
+    --dark-orange: #d35400;
+    --light-bg: #fdf2e9; /* Светло бежово/оранжево */
+    --brown-text: #5d4037;
+    --soft-white: #ffffff;
+}
+
+body {
+    background-color: #fcf8f5;
+    color: var(--brown-text);
+}
+
+.text-orange {
+    color: var(--primary-orange) !important;
+}
+
+.bg-orange-light {
+    background-color: var(--light-bg) !important;
+}
+
+.btn-orange {
+    background-color: var(--primary-orange);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+    .btn-orange:hover {
+        background-color: var(--dark-orange);
+        color: white;
+        box-shadow: 0 4px 8px rgba(230, 126, 34, 0.3);
+    }
+
+.btn-outline-orange {
+    border: 2px solid var(--primary-orange);
+    color: var(--primary-orange);
+    background: transparent;
+}
+
+    .btn-outline-orange:hover {
+        background-color: var(--primary-orange);
+        color: white;
+    }
+
+.card-custom {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+    background-color: white;
+}
+
+    .card-custom:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(230, 126, 34, 0.15);
+    }
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-orange);
+    box-shadow: 0 0 0 0.25rem rgba(230, 126, 34, 0.25);
 }

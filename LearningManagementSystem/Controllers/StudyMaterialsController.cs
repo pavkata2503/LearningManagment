@@ -27,14 +27,50 @@ namespace LearningManagementSystem.Controllers
             this._userManager = userManager;
             this._fileService = fileService;
         }
-        
 
-        public async Task<IActionResult> Index(StudyMaterialFilterModel filter)
+
+        //public async Task<IActionResult> Index(StudyMaterialFilterModel filter)
+        //{
+        //    var model = await _service.GetFilteredMaterials(filter);
+
+        //    return View(model);
+        //}
+        [HttpGet]
+        public async Task<IActionResult> Index(StudyMaterialFilterModel filterModel, int? pageNumber)
         {
-            var model = await _service.GetFilteredMaterials(filter);
+            // 1. Настройваме страниците във филтър модела, преди да го подадем на сервиза
+            filterModel.PageNumber = pageNumber ?? 1;
+            filterModel.PageSize = 6; // Тук задаваш по колко елемента на страница искаш
 
-            return View(model);
+            // 2. Извикваме правилния метод от твоя сървис
+            var materials = await _service.GetFilteredMaterials(filterModel);
+
+            // 3. Прехвърляме данните към ViewModel-а за изгледа
+            // Внимавай с имената на свойствата тук (напаснал съм ги спрямо твоя сървис)
+            var viewModelItems = materials.Select(m => new StudyMaterialViewModel
+            {
+                Id = m.Id,
+                Title = m.Title,
+                Description = m.Description,
+                Category = m.Category,
+                CreatedOn = m.CreateDate,   // В твоя модел е CreateDate
+                TypeFile = m.TypeFile,
+                FileName = m.FileTitle,     // В твоя модел е FileTitle
+                FileUrl = $"/Uploads/{m.FileTitle}"
+            }).ToList();
+
+            // 4. Създаваме резултата
+            var result = new PaginatedResult<StudyMaterialViewModel>
+            {
+                Items = viewModelItems,
+                CurrentPage = materials.PageIndex,
+                TotalPages = materials.TotalPages
+            };
+
+            return View(result);
         }
+
+
 
         //[Authorize(Roles = "Teacher")]
         public IActionResult Add()

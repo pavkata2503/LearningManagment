@@ -20,6 +20,7 @@ namespace Services.IService
         Task AddMessageAsync(Message message, ApplicationUser sender);
 
         Task DeleteAsync(int id);
+        Task<Message> GetByIdAsync(int id);
 
         Task MarkAsReadAsync(int id);
     }

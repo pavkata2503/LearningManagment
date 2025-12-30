@@ -88,6 +88,11 @@ namespace Services
             message.IsRead = true;
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Message> GetByIdAsync(int id)
+        {
+            return await _context.Messages.FindAsync(id);
+        }
     }
 
 }

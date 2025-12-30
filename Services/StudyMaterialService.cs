@@ -108,6 +108,18 @@ namespace Services
 
             return (true, string.Empty);
         }
+
+        
+
+        public async Task MarkAsReadAsync(int id)
+        {
+            var message = await _context.Messages.FindAsync(id);
+            if (message != null && !message.IsRead)
+            {
+                message.IsRead = true;
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }
 

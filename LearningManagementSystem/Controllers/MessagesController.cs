@@ -26,6 +26,8 @@ namespace LearningManagementSystem.Controllers
             int? pageSize,
             int? pageNumber)
         {
+
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
                 return Unauthorized();
@@ -85,6 +87,18 @@ namespace LearningManagementSystem.Controllers
         {
             await _messageService.MarkAsReadAsync(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        // Този метод отваря съобщението и го прави "Прочетено"
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            await _messageService.MarkAsReadAsync(id);
+            var message = await _messageService.GetByIdAsync(id);
+
+            if (message == null) return NotFound();
+
+            return View(message);
         }
     }
 

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AppData.Models.StudyMaterial>
+﻿@* @model IEnumerable<AppData.Models.StudyMaterial>
 
 @{
     ViewData["Title"] = "Материали";
@@ -24,4 +24,39 @@
 
 <div class="container d-flex justify-content-center mb-5">
     @await Html.PartialAsync("StudyMaterial_PartialViews/_Pagination")
+</div>
+ *@
+
+
+@using AppData.Models.ViewModels
+@model PaginatedResult<StudyMaterialViewModel>
+
+@{
+    ViewData["Title"] = "Учебни материали";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row mb-4 align-items-center bg-white p-3 rounded shadow-sm mx-1 border-start border-5" style="border-color: #e67e22 !important;">
+        <div class="col-md-6">
+            <h1 class="m-0 fw-bold" style="color: #5d4037;">📚 Учебни материали</h1>
+            <p class="text-muted mb-0">Разгледай и изтегли наличните ресурси</p>
+        </div>
+        <div class="col-md-6 text-md-end mt-3 mt-md-0">
+            <partial name="StudyMaterial_PartialViews/_AddButton" />
+        </div>
+    </div>
+
+    <div class="card card-custom mb-4 bg-light">
+        <div class="card-body p-3">
+            <partial name="StudyMaterial_PartialViews/_Filters" model="new StudyMaterialFilterModel()" />
+        </div>
+    </div>
+
+    <div id="studyMaterialsList">
+        <partial name="StudyMaterial_PartialViews/_StudyMaterialsList" model="Model.Items" />
+    </div>
+
+    <div class="mt-4 d-flex justify-content-center">
+        <partial name="StudyMaterial_PartialViews/_Pagination" model="Model" />
+    </div>
 </div>
