@@ -20,14 +20,14 @@ namespace LearningManagementSystem.Controllers
             _userManager = userManager;
         }
 
+        // MessagesController.cs
+
         public async Task<IActionResult> Index(
-            string? receiver,
+            string? receiver, // Забележка: Тук може би искаш да филтрираш по подател (Sender), а не Receiver, тъй като потребителят вижда своите входящи, но нека го оставим както е по твоята логика
             bool? isRead,
             int? pageSize,
             int? pageNumber)
         {
-
-
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
                 return Unauthorized();
@@ -35,12 +35,18 @@ namespace LearningManagementSystem.Controllers
             int size = pageSize ?? 5;
             int page = pageNumber ?? 1;
 
+            // Взимаме съобщенията (твоята логика си е супер тук)
             var result = await _messageService.GetMessagesAsync(
                 user.Email,
-                receiver,
+                receiver, // Тук се ползва аргумента receiver
                 isRead,
                 size,
                 page);
+
+            // --- НОВО: Запазваме текущите филтри за View-то ---
+            ViewBag.CurrentReceiver = receiver;
+            ViewBag.CurrentIsRead = isRead; // Това ни трябва за Dropdown-а
+                                            // --------------------------------------------------
 
             ViewBag.TotalPages = result.TotalPages;
             ViewBag.CurrentPage = result.CurrentPage;

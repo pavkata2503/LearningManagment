@@ -1,130 +1,31 @@
-﻿@* @model IEnumerable<AppData.Models.Message>
-
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="lms-card border-0">
-                <div class="card-header bg-white p-4 d-flex justify-content-between align-items-center" style="border-bottom: 2px solid #fdf5e6;">
-                    <h2 class="mb-0 fw-bold" style="color: var(--dark-brown);">Входяща кутия</h2>
-                    <a asp-action="Create" class="btn btn-orange rounded-pill shadow-sm"><i class="bi bi-pencil-square"></i> Ново съобщение</a>
-                </div>
-
-                <div class="list-group list-group-flush">
-                    @foreach (var msg in Model)
-                    {
-                        <a asp-action="Details" asp-route-id="@msg.Id" class="list-group-item list-group-item-action p-4 border-bottom position-relative hover-orange">
-                            <div class="d-flex w-100 justify-content-between align-items-center mb-1">
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-orange text-white d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; background-color: var(--primary-orange);">
-                                        <span class="fw-bold">@msg.Sender?.Substring(0, 1).ToUpper()</span>
-                                    </div>
-                                    <h5 class="mb-0 fw-bold">@msg.Sender?</h5>
-                                </div>
-                                <small class="text-muted"><i class="bi bi-clock"></i> @msg.SendDate.ToString("dd MMM, HH:mm")</small>
-                            </div>
-
-                            <div class="ms-5">
-                                <p class="mb-1 fw-bold text-dark">@msg.Text</p>
-                                <p class="mb-0 text-muted text-truncate" style="max-width: 80%;">@msg.Text</p>
-                            </div>
-                        </a>
-                    }
-
-                    @if (!Model.Any())
-                    {
-                        <div class="text-center p-5">
-                            <i class="bi bi-envelope-open display-1 text-muted opacity-25"></i>
-                            <p class="mt-3 fs-4 text-muted">Нямате нови съобщения.</p>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<style>
-    .hover-orange:hover {
-        background-color: #fff9f0 !important;
-        border-left: 4px solid var(--primary-orange) !important;
-    }
-</style> *@
-
-
-@* @using AppData.Models
+﻿@* @using AppData.Models
 @model IEnumerable<Message>
 
 @{
     ViewData["Title"] = "Съобщения";
+    // Взимаме текущата стойност от контролера (null = Всички, false = Непрочетени, true = Прочетени)
+    var currentIsRead = ViewBag.CurrentIsRead as bool?;
 }
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold" style="color: #5d4037;"><i class="bi bi-chat-left-text me-2"></i>Съобщения</h2>
-        <a asp-action="Add" class="btn btn-orange rounded-pill px-4">
-            <i class="bi bi-pencil-square me-2"></i>Ново съобщение
-        </a>
-    </div>
+        <h2 class="fw-bold" style="color: #5d4037;">
+            <i class="bi bi-chat-left-text me-2"></i>Съобщения
+        </h2>
 
-    @if (!Model.Any())
-    {
-        <div class="alert alert-warning text-center border-0 shadow-sm" role="alert">
-            Все още нямате съобщения.
-        </div>
-    }
-    else
-    {
-        <div class="row">
-            <div class="col-12">
-                <div class="list-group shadow-sm border-0 rounded-3">
-                    @foreach (var msg in Model)
-                    {
-                        <div class="list-group-item list-group-item-action border-0 mb-2 rounded-3 p-3 bg-white" style="border-left: 5px solid #e67e22 !important;">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1 fw-bold text-dark">
-                                    <i class="bi bi-person-circle text-orange me-2"></i>
-                                    @* Тук предполагам, че Sender е стринг или обект с име 
-                                    @(msg.Sender) <span class="text-muted fw-normal small"> <i class="bi bi-arrow-right-short"></i> </span>
-                                    @(msg.Receiver)
-                                </h5>
-                                <small class="text-muted">
-                                    <i class="bi bi-clock me-1"></i>@msg.SendDate.ToString("dd.MM.yyyy HH:mm")
-                                </small>
-                            </div>
-                            <p class="mb-1 mt-2 text-secondary">
-                                @msg.Text
-                            </p>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    }
-</div> *@
-
-
-@using AppData.Models
-@model IEnumerable<Message>
-
-@{
-    ViewData["Title"] = "Съобщения";
-    var currentFilter = ViewBag.CurrentFilter as string ?? "all";
-}
-
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold" style="color: #5d4037;"><i class="bi bi-chat-left-text me-2"></i>Съобщения</h2>
-
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 align-items-center">
             <form method="get" asp-action="Index" class="d-flex align-items-center">
-                <select name="filter" onchange="this.form.submit()">
-                    <option value="all" selected="@((currentFilter == "all") ? "selected" : null)">Всички</option>
-                    <option value="unread" selected="@((currentFilter == "unread") ? "selected" : null)">Непрочетени</option>
-                    <option value="read" selected="@((currentFilter == "read") ? "selected" : null)">Прочетени</option>
+                <input type="hidden" name="receiver" value="@ViewBag.CurrentReceiver" />
+                <input type="hidden" name="pageSize" value="@ViewBag.PageSize" />
+
+                <select name="isRead" class="form-select border-orange text-secondary" style="border-color: #e67e22;" onchange="this.form.submit()">
+                    <!option value="" @(currentIsRead == null ? "selected" : "")>Всички съобщения</!option>
+                    <!option value="false" @(currentIsRead == false ? "selected" : "")>Непрочетени</!option>
+                    <!option value="true" @(currentIsRead == true ? "selected" : "")>Прочетени</!option>
                 </select>
             </form>
 
-            <a asp-action="Add" class="btn btn-orange rounded-pill px-4">
+            <a asp-action="Add" class="btn btn-orange rounded-pill px-4 text-white" style="background-color: #e67e22;">
                 <i class="bi bi-pencil-square me-2"></i>Ново
             </a>
         </div>
@@ -132,7 +33,7 @@
 
     @if (!Model.Any())
     {
-        <div class="alert alert-warning text-center border-0 shadow-sm bg-orange-light text-dark" role="alert">
+        <div class="alert alert-warning text-center border-0 shadow-sm text-dark" style="background-color: #fff3e0;" role="alert">
             <i class="bi bi-inbox me-2"></i>Няма намерени съобщения в тази категория.
         </div>
     }
@@ -141,26 +42,179 @@
         <div class="list-group shadow-sm border-0 rounded-3">
             @foreach (var msg in Model)
             {
-                // Ако е непрочетено -> по-дебел оранжев бордюр и удебелен шрифт
-                var readClass = msg.IsRead ? "bg-white text-secondary" : "bg-orange-light fw-bold text-dark";
-                var borderClass = msg.IsRead ? "border-secondary" : "border-warning";
+                // ЛОГИКА ЗА СТИЛИЗИРАНЕ
+                // Ако е прочетено: бял фон, сив бордюр, нормален текст
+                // Ако е НЕпрочетено: лек оранжев фон, оранжев бордюр, удебелен текст
+                bool isUnread = !msg.IsRead;
 
-                // Линка сочи към Details метода, който ще го маркира като прочетено
-                <a asp-action="Details" asp-route-id="@msg.Id" class="list-group-item list-group-item-action border-0 mb-2 rounded-3 p-3 @readClass" style="border-left: 5px solid @(msg.IsRead ? "#ced4da" : "#e67e22") !important;">
+                string bgColor = isUnread ? "background-color: #fff9f0;" : "background-color: #fff;";
+                string borderColor = isUnread ? "#e67e22" : "#ced4da";
+                string textColor = isUnread ? "text-dark fw-bold" : "text-muted";
+                string iconClass = isUnread ? "bi-envelope-fill text-orange" : "bi-envelope-open";
+                string iconStyle = isUnread ? "color: #e67e22;" : "";
+
+                <a asp-action="Details" asp-route-id="@msg.Id"
+                   class="list-group-item list-group-item-action border-0 mb-2 rounded-3 p-3 position-relative"
+                   style="border-left: 5px solid @borderColor !important; @bgColor">
+
                     <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1 @(msg.IsRead ? "fw-normal" : "fw-bold")">
-                            <i class="bi @(msg.IsRead ? "bi-envelope-open" : "bi-envelope-fill text-orange") me-2"></i>
+                        <h5 class="mb-1 @textColor">
+                            <i class="bi @iconClass me-2" style="@iconStyle"></i>
                             От: @msg.Sender
                         </h5>
-                        <small class="text-muted">
+                        <small class="@(isUnread ? "text-dark fw-bold" : "text-muted")">
                             <i class="bi bi-clock me-1"></i>@msg.SendDate.ToString("dd.MM.yyyy HH:mm")
                         </small>
                     </div>
-                    <p class="mb-1 mt-2 text-truncate" style="max-width: 80%;">
+
+                    <p class="mb-1 mt-2 text-truncate @(isUnread ? "text-dark" : "text-secondary")" style="max-width: 90%;">
                         @msg.Text
                     </p>
+
+                    @if (isUnread)
+                    {
+                        <span class="position-absolute top-0 end-0 translate-middle p-2 bg-danger border border-light rounded-circle" style="margin-top: 15px; margin-right: 15px;">
+                            <span class="visually-hidden">New alerts</span>
+                        </span>
+                    }
+                </a>
+            }
+        </div>
+
+    }
+</div> *@
+
+
+
+@using AppData.Models
+@model IEnumerable<Message>
+
+@{
+    ViewData["Title"] = "Съобщения";
+    // Взимаме текущата стойност от контролера (null = Всички, false = Непрочетени, true = Прочетени)
+    var currentIsRead = ViewBag.CurrentIsRead as bool?;
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <h2 class="fw-bold mb-0" style="color: #5d4037;">
+            <i class="bi bi-chat-left-text me-2"></i>Съобщения
+        </h2>
+
+        <div class="d-flex gap-2 align-items-center flex-wrap">
+
+            <form method="get" asp-action="Index" class="d-flex align-items-center">
+                <input type="hidden" name="receiver" value="@ViewBag.CurrentReceiver" />
+                <input type="hidden" name="pageSize" value="@ViewBag.PageSize" />
+
+                <select name="isRead" class="form-select border-orange text-secondary" style="border-color: #e67e22;" onchange="this.form.submit()">
+                    <!option value="" @(currentIsRead == null ? "selected" : "")>Всички съобщения</!option>
+                    <!option value="false" @(currentIsRead == false ? "selected" : "")>Непрочетени</!option>
+                    <!option value="true" @(currentIsRead == true ? "selected" : "")>Прочетени</!option>
+                </select>
+            </form>
+
+            <div class="input-group input-group-sm shadow-sm" style="width: 200px;">
+                <span class="input-group-text bg-white border-end-0 text-orange"><i class="bi bi-search"></i></span>
+                <input type="text" id="searchInput" class="form-control border-start-0" placeholder="Филтър текст..." />
+            </div>
+
+            <a asp-action="Add" class="btn btn-orange rounded-pill px-4 text-white ms-2" style="background-color: #e67e22;">
+                <i class="bi bi-pencil-square me-2"></i>Ново
+            </a>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning text-center border-0 shadow-sm text-dark" style="background-color: #fff3e0;" role="alert">
+            <i class="bi bi-inbox me-2"></i>Няма намерени съобщения в тази категория.
+        </div>
+    }
+    else
+    {
+        <div class="list-group shadow-sm border-0 rounded-3">
+            @foreach (var msg in Model)
+            {
+                bool isUnread = !msg.IsRead;
+                string bgColor = isUnread ? "background-color: #fff9f0;" : "background-color: #fff;";
+                string borderColor = isUnread ? "#e67e22" : "#ced4da";
+                string textColor = isUnread ? "text-dark fw-bold" : "text-muted";
+                string iconClass = isUnread ? "bi-envelope-fill text-orange" : "bi-envelope-open";
+                string iconStyle = isUnread ? "color: #e67e22;" : "";
+
+                <a asp-action="Details" asp-route-id="@msg.Id"
+                   class="list-group-item list-group-item-action border-0 mb-2 rounded-3 p-3 position-relative search"
+                   style="border-left: 5px solid @borderColor !important; @bgColor">
+
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1 @textColor">
+                            <i class="bi @iconClass me-2" style="@iconStyle"></i>
+                            От: @msg.Sender
+                        </h5>
+                        <small class="@(isUnread ? "text-dark fw-bold" : "text-muted")">
+                            <i class="bi bi-clock me-1"></i>@msg.SendDate.ToString("dd.MM.yyyy HH:mm")
+                        </small>
+                    </div>
+
+                    <p class="mb-1 mt-2 text-truncate @(isUnread ? "text-dark" : "text-secondary") text" style="max-width: 90%;">
+                        @msg.Text
+                    </p>
+
+                    @if (isUnread)
+                    {
+                        <span class="position-absolute top-0 end-0 translate-middle p-2 bg-danger border border-light rounded-circle" style="margin-top: 15px; margin-right: 15px;">
+                            <span class="visually-hidden">New alerts</span>
+                        </span>
+                    }
                 </a>
             }
         </div>
     }
 </div>
+
+<script>
+    const searchInput = document.getElementById("searchInput");
+
+    // Запазваме оригиналния текст, за да не се чупи HTML-а при триене на букви
+    const originalTexts = [];
+    const textEls = document.getElementsByClassName("text");
+
+    // При зареждане, запазваме оригиналните текстове
+    for(let i=0; i < textEls.length; i++) {
+        originalTexts.push(textEls[i].innerText);
+    }
+
+    searchInput.addEventListener("input", function () {
+        searchMessages(this);
+    });
+
+    function searchMessages(inputEl) {
+        const query = inputEl.value.toLowerCase();
+        const textElsDivs = document.getElementsByClassName("search"); // Това са <a> елементите
+
+        for (let i = 0; i < textEls.length; i++) {
+            const el = textEls[i];
+            // Винаги търсим в оригиналния текст, за да избегнем проблеми с HTML таговете <b>
+            const originalText = originalTexts[i];
+            const lowerText = originalText.toLowerCase();
+
+            if (lowerText.includes(query)) {
+                textElsDivs[i].style.display = "block"; // Показваме картата
+
+                // Хайлайтване на текста (ако има заявка)
+                if(query.length > 0) {
+                     // Ескейпваме специални regex символи, за да не гръмне скрипта
+                    const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    const regex = new RegExp(`(${safeQuery})`, 'ig');
+                    el.innerHTML = originalText.replace(regex, '<b style="background-color: yellow; color: black;">$1</b>');
+                } else {
+                    el.innerText = originalText; // Връщаме нормалния текст
+                }
+
+            } else {
+                textElsDivs[i].style.display = "none"; // Крием картата
+            }
+        }
+    }
+</script>

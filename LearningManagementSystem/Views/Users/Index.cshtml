@@ -1,0 +1,124 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model List<ApplicationUser>
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Управление на потребители";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold" style="color: #5d4037;">
+            <i class="bi bi-people-fill me-2"></i>Потребители
+        </h2>
+
+        <span class="badge bg-white text-secondary border shadow-sm p-2">
+            Общо потребители: @Model.Count
+        </span>
+    </div>
+
+    <div class="card shadow-lg border-0 rounded-3 overflow-hidden">
+        <div class="card-header py-3 d-flex align-items-center" style="background-color: #e67e22; color: white;">
+            <h5 class="mb-0 fw-bold"><i class="bi bi-list-ul me-2"></i>Списък с регистрирани потребители</h5>
+        </div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light text-secondary">
+                        <tr style="font-size: 0.9rem; text-transform: uppercase;">
+                            <th class="ps-4 py-3">Потребител</th>
+                            <th class="py-3">Имена</th>
+                            <th class="py-3">Контакт</th>
+                            <th class="py-3">Клас</th>
+                            <th class="py-3 text-center" style="width: 150px;">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle text-white d-flex align-items-center justify-content-center me-3 shadow-sm"
+                                             style="width: 40px; height: 40px; background-color: #5d4037; font-size: 1.1rem;">
+                                            @user.Name?.Substring(0, 1).ToUpper()
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold text-dark">@user.Name</div>
+                                            <small class="text-muted" style="font-size: 0.75rem;">ID: @user.Id.Substring(0, 8)...</small>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="d-block fw-bold text-secondary">@user.FirstName @user.LastName</span>
+                                </td>
+
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <span><i class="bi bi-envelope me-1 text-muted"></i>@user.Email</span>
+                                        @if (!string.IsNullOrEmpty(user.PhoneNumber))
+                                        {
+                                            <small class="text-muted"><i class="bi bi-telephone me-1"></i>@user.PhoneNumber</small>
+                                        }
+                                        else
+                                        {
+                                            <small class="text-muted opacity-50">- няма телефон -</small>
+                                        }
+                                    </div>
+                                </td>
+
+                                <td>
+                                    @if (user.Class > 0)
+                                    {
+                                        <span class="badge bg-light text-dark border">
+                                            <i class="bi bi-mortarboard-fill text-warning me-1"></i> @user.Class клас
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted opacity-50 fst-italic">Няма клас</span>
+                                    }
+                                </td>
+
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a asp-action="Edit" asp-route-id="@user.Id"
+                                           class="btn btn-sm btn-outline-warning text-dark border-warning"
+                                           title="Редактирай">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+
+                                        @if (user.Name != "Павката")
+                                        {
+                                            <form asp-action="Delete" asp-route-id="@user.Id" method="post"
+                                                  onsubmit="return confirm('Сигурни ли сте, че искате да изтриете потребител @user.Name?');">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Изтрий">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-sm btn-light text-muted border" disabled title="Не може да бъде изтрит">
+                                                <i class="bi bi-shield-lock"></i>
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <p class="text-muted">Няма намерени потребители.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

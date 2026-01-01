@@ -1,119 +1,208 @@
 ﻿@page
 @model RegisterModel
 
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
 <!DOCTYPE html>
-<html>
+<html lang="bg">
 <head>
+    <meta charset="utf-8" />
     <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
     <style>
+        /* НАСТРОЙКИ ЗА ЗАДНИЯ ФОН */
         body {
-            background-color: #f8f9fa;
+            /* НОВА СНИМКА: Светъл университетски коридор/кампус */
+            background: url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=1986&q=80') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            position: relative;
         }
 
-        .container {
-            margin-top: 50px;
+            /* ТЪМЕН ФИЛТЪР */
+            body::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                /* Леко по-светъл филтър тук, защото снимката е светла */
+                background: rgba(0, 0, 0, 0.5);
+                z-index: -1;
+            }
+
+        .register-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border-top: 5px solid #e67e22;
+            /* Лека прозрачност на картата за по-модерен вид */
+            background-color: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(5px);
         }
 
-        .card {
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-            transition: 0.3s;
-            border-radius: 10px;
-        }
-
-        .card-body {
-            padding: 30px;
-        }
-
-        .form-floating {
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
+        .form-control:focus, .form-select:focus {
+            border-color: #e67e22;
+            box-shadow: 0 0 0 0.25rem rgba(230, 126, 34, 0.25);
         }
 
         .btn-register {
-            width: 100%;
+            background-color: #e67e22;
+            border: none;
+            color: white;
+            padding: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
         }
 
-        .external-services {
-            text-align: center;
+            .btn-register:hover {
+                background-color: #d35400;
+                transform: translateY(-2px);
+            }
+
+        .section-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #e67e22;
+            font-weight: bold;
+            margin-bottom: 15px;
+            margin-top: 10px;
         }
 
-        .external-services button {
-            margin-right: 10px;
+        .hover-orange:hover {
+            color: #e67e22 !important;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h1>Регистрирай потребител</h1>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card register-card">
+                    <div class="card-body p-4 p-md-5">
+
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold text-dark">Създай профил</h2>
+                            <p class="text-muted">Стани част от нашата общност</p>
+                        </div>
+
                         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                            <div class="form-floating">
-                                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                                <label asp-for="Input.Email">Имейл</label>
-                                <span asp-validation-for="Input.Email" class="text-danger"></span>
-                            </div>
-                            <div class="form-floating">
-                                <input asp-for="Input.Name" class="form-control" autocomplete="name" aria-required="true" placeholder="Name" />
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger shadow-sm border-0" role="alert"></div>
+
+                            <div class="section-title"><i class="bi bi-person-vcard me-2"></i>Лични данни</div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Name" class="form-control" autocomplete="nickname" aria-required="true" placeholder="Username" />
                                 <label asp-for="Input.Name">Потребителско име</label>
-                                <span asp-validation-for="Input.Name" class="text-danger"></span>
+                                <span asp-validation-for="Input.Name" class="text-danger small"></span>
                             </div>
-                            <div class="form-floating">
-                                <input asp-for="Input.Class" class="form-control" autocomplete="class" aria-required="true" placeholder="Class" />
-                                <label asp-for="Input.Class">Клас</label>
-                                <span asp-validation-for="Input.Class" class="text-danger"></span>
+
+                            <div class="row g-2 mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="Input.FirstName" class="form-control" placeholder="First Name" />
+                                        <label asp-for="Input.FirstName">Име</label>
+                                    </div>
+                                    <span asp-validation-for="Input.FirstName" class="text-danger small"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="Input.LastName" class="form-control" placeholder="Last Name" />
+                                        <label asp-for="Input.LastName">Фамилия</label>
+                                    </div>
+                                    <span asp-validation-for="Input.LastName" class="text-danger small"></span>
+                                </div>
                             </div>
-                            <div class="form-floating">
-                                <input asp-for="Input.FirstName" class="form-control" autocomplete="name" aria-required="true" placeholder="First Name" />
-                                <label asp-for="Input.FirstName">Собствено име</label>
-                                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+
+                            <div class="section-title mt-4"><i class="bi bi-person-lines-fill me-2"></i>Контакти</div>
+
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="name@example.com" />
+                                <label asp-for="Input.Email">Имейл адрес</label>
+                                <span asp-validation-for="Input.Email" class="text-danger small"></span>
                             </div>
-                            <div class="form-floating">
-                                <input asp-for="Input.LastName" class="form-control" autocomplete="name" aria-required="true" placeholder="Last Name" />
-                                <label asp-for="Input.LastName">Фамилно име</label>
-                                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+
+                            <div class="row g-2 mb-3">
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input asp-for="Input.Class" class="form-control" placeholder="Class" />
+                                        <label asp-for="Input.Class"><i class="bi bi-mortarboard me-1"></i>Клас</label>
+                                    </div>
+                                    <span asp-validation-for="Input.Class" class="text-danger small"></span>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-floating">
+                                        <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Phone" />
+                                        <label asp-for="Input.PhoneNumber"><i class="bi bi-telephone me-1"></i>Телефон</label>
+                                    </div>
+                                    <span asp-validation-for="Input.PhoneNumber" class="text-danger small"></span>
+                                </div>
                             </div>
-                            <div class="form-floating">
-                                <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="name" aria-required="true" placeholder="First Name" />
-                                <label asp-for="Input.PhoneNumber">Телефонен номер</label>
-                                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+
+                            <div class="section-title mt-4"><i class="bi bi-shield-lock me-2"></i>Парола</div>
+
+                            <div class="row g-2 mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" placeholder="Password" />
+                                        <label asp-for="Input.Password">Парола</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" placeholder="Confirm" />
+                                        <label asp-for="Input.ConfirmPassword">Потвърди</label>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-floating">
-                                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" />
-                                <label asp-for="Input.Password">Парола</label>
-                                <span asp-validation-for="Input.Password" class="text-danger"></span>
-                            </div>
-                            <div class="form-floating">
-                                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm Password" />
-                                <label asp-for="Input.ConfirmPassword">Потвърди парола</label>
-                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                            </div>
+                            <span asp-validation-for="Input.Password" class="text-danger small d-block mb-2"></span>
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger small d-block"></span>
+
                             @if (User.IsInRole("Admin"))
                             {
-                                <div class="form-floating">
-                                    <select asp-for="Input.Role" class="form-control" autocomplete="role" aria-required="true">
-                                        <option value="">Избери роля</option>
+                                <div class="form-floating mt-3 mb-3 border-start border-4 border-warning ps-2 bg-light rounded-end">
+                                    <select asp-for="Input.Role" class="form-select bg-transparent border-0" aria-required="true">
+                                        <option value="">-- Избери роля --</option>
                                         <option value="Teacher">Учител</option>
                                         <option value="Student">Ученик</option>
                                     </select>
-                                    <label asp-for="Input.Role">Роля</label>
-                                    <span asp-validation-for="Input.Role" class="text-danger"></span>
+                                    <label asp-for="Input.Role" class="fw-bold text-dark">Задай Роля (Админ)</label>
+                                    <span asp-validation-for="Input.Role" class="text-danger small"></span>
                                 </div>
                             }
-                            <button style="background:orange;" id="registerSubmit" type="submit" class="btn btn-register">Регистрирай</button>
+
+                            <div class="d-grid mt-4">
+                                <button id="registerSubmit" type="submit" class="btn btn-register rounded-pill shadow-sm">
+                                    <i class="bi bi-check-circle me-2"></i>Регистрирай се
+                                </button>
+                            </div>
+
+                            <div class="text-center mt-3">
+                                <a asp-page="./Login" class="text-decoration-none text-muted small hover-orange">
+                                    Вече имаш акаунт? Влез тук.
+                                </a>
+                            </div>
                         </form>
                     </div>
                 </div>
+                @* <div class="text-center mt-3 text-white-50 small">
+                    &copy; 2025 LMS Portal.
+                </div> *@
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
 </body>
 </html>

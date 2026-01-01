@@ -430,7 +430,6 @@ C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\compressed\60gxst6znt-87fc7y1x7t.gz
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\compressed\ubyz0ojhe5-mlv21k5csn.gz
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\compressed\pm6zjzyi2a-ux6829nuow.gz
-C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\compressed\rdualgc64v-tfz7ars6qn.gz
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\compressed\sh6sw9evcc-z1kqlplg5x.gz
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\compressed\q1aplbk2r1-z1kqlplg5x.gz
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\staticwebassets.build.json
@@ -445,3 +444,4 @@ C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\LearningManagementSystem.genruntimeconfig.cache
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\ref\LearningManagementSystem.dll
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\compressed\u9fxw43ph3-weexo4xgnf.gz
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\compressed\rdualgc64v-ypagax259a.gz

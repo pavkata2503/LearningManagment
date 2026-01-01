@@ -7,38 +7,50 @@
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card card-custom shadow-lg border-0">
-                <div class="card-header bg-orange-light text-orange border-bottom border-warning py-3">
-                    <h4 class="mb-0 fw-bold"><i class="bi bi-envelope-open me-2"></i>Съобщение</h4>
+        <div class="col-md-9">
+            <div class="card shadow-lg border-0 rounded-3">
+
+                <div class="card-header text-white py-3 d-flex justify-content-between align-items-center" style="background-color: #e67e22;">
+                    <h4 class="mb-0 fw-bold"><i class="bi bi-envelope-open me-2"></i>Преглед</h4>
+                    <span class="badge bg-white text-orange" style="color: #e67e22;">@Model.SendDate.ToString("dd.MM.yyyy")</span>
                 </div>
-                <div class="card-body p-4">
-                    <div class="mb-4">
-                        <label class="text-muted small fw-bold text-uppercase">От:</label>
-                        <p class="fs-5 fw-bold text-dark">@Model.Sender</p>
-                    </div>
 
-                    <div class="mb-4">
-                        <label class="text-muted small fw-bold text-uppercase">Дата:</label>
-                        <p class="text-secondary">@Model.SendDate.ToString("f")</p>
-                    </div>
-
-                    <hr class="text-orange opacity-25" />
-
-                    <div class="mb-4">
-                        <label class="text-muted small fw-bold text-uppercase mb-2">Съдържание:</label>
-                        <div class="p-3 bg-light rounded-3 border">
-                            @Model.Text
+                <div class="card-body p-5 bg-white">
+                    <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold fs-4 me-3"
+                             style="width: 50px; height: 50px; background-color: #5d4037;">
+                            @Model.Sender?.Substring(0, 1).ToUpper()
+                        </div>
+                        <div>
+                            <div class="text-muted small fw-bold text-uppercase">От подател:</div>
+                            <div class="fs-5 fw-bold text-dark">@Model.Sender</div>
+                            <div class="small text-muted">@Model.SenderEmail</div>
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-end mt-4">
-                        <a asp-action="Index" class="btn btn-outline-orange px-4">
+                    <div class="mb-5">
+                        <label class="text-muted small fw-bold text-uppercase mb-2">Съобщение:</label>
+                        <div class="p-4 rounded-3 border-0" style="background-color: #fff9f0; border-left: 4px solid #e67e22 !important;">
+                            <p class="mb-0" style="white-space: pre-wrap; font-size: 1.1rem; color: #333;">@Model.Text</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <a asp-action="Index" class="btn btn-outline-secondary px-4 rounded-pill">
                             <i class="bi bi-arrow-left me-2"></i>Назад
                         </a>
-                        <a asp-action="Add" class="btn btn-orange ms-2 px-4">
-                            <i class="bi bi-reply me-2"></i>Отговори
-                        </a>
+
+                        <div class="d-flex gap-2">
+                            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Искате ли да изтриете това съобщение?');">
+                                <button type="submit" class="btn btn-outline-danger rounded-pill px-3">
+                                    <i class="bi bi-trash"></i> Изтрий
+                                </button>
+                            </form>
+
+                            <a asp-action="Add" class="btn text-white rounded-pill px-4" style="background-color: #e67e22;">
+                                <i class="bi bi-reply me-2"></i>Отговори
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
