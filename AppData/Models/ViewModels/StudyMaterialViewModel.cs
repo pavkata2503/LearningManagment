@@ -12,6 +12,6 @@ namespace AppData.Models.ViewModels
         public DateTime CreatedOn { get; set; } // Map-ваме го от CreateDate
         public TypeFile TypeFile { get; set; }
         public string FileName { get; set; }    // Map-ваме го от FileTitle
-        public string FileUrl { get; set; }
+        public string FileUrl { get; set; } // Това е URl на снимаката
     }
 }

@@ -129,6 +129,7 @@ namespace LearningManagementSystem.Areas.Identity.Pages.Account
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
                 user.PhoneNumber = Input.PhoneNumber;
+                user.Name = Input.Name;
                 user.Email = Input.Email;
                 user.Class = Input.Class;
                 var result = await _userManager.CreateAsync(user, Input.Password);

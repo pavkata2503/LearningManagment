@@ -1,0 +1,36 @@
+﻿.custom-pg-link {
+    color: var(--lms-brown) !important;
+    background-color: #ffffff !important;
+    border: 1px solid var(--lms-beige) !important;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    padding: 10px 20px;
+}
+
+    .custom-pg-link:hover {
+        background-color: var(--lms-orange) !important;
+        color: white !important;
+        border-color: var(--lms-orange) !important;
+    }
+
+
+.custom-pg-info {
+    background-color: var(--lms-beige) !important;
+    border-color: var(--lms-beige) !important;
+    color: var(--lms-brown) !important;
+    font-weight: 700;
+    padding: 10px 20px;
+}
+
+
+.page-item.disabled .custom-pg-link {
+    background-color: #fcfcfc !important;
+    color: #d1d1d1 !important;
+    border-color: #f1f1f1 !important;
+    cursor: not-allowed;
+}
+
+
+.page-link:focus {
+    box-shadow: 0 0 0 0.25rem rgba(230, 126, 34, 0.25);
+}

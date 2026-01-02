@@ -1,0 +1,162 @@
+﻿@using AppData.Models.ViewModels
+@model StudyMaterialViewModel
+
+@{
+    ViewData["Title"] = "Детайли за материала";
+
+    // Логика за иконите и цветовете
+    string iconClass = "bi-file-earmark-text";
+    string colorClass = "text-secondary";
+    string typeLabel = "Файл";
+    string fileTypeStr = Model.TypeFile.ToString();
+
+    if (fileTypeStr.Contains("Pdf"))
+    {
+        iconClass = "bi-file-earmark-pdf-fill";
+        colorClass = "text-danger"; // Червено за PDF
+        typeLabel = "PDF Документ";
+    }
+    else if (fileTypeStr.Contains("Image"))
+    {
+        iconClass = "bi-file-earmark-image-fill";
+        colorClass = "text-purple"; // Лилаво/Тъмно за снимки
+        typeLabel = "Изображение";
+    }
+    else if (fileTypeStr.Contains("Word") || fileTypeStr.Contains("Doc"))
+    {
+        iconClass = "bi-file-earmark-word-fill";
+        colorClass = "text-primary"; // Синьо за Word
+        typeLabel = "Word Документ";
+    }
+}
+
+<style>
+    .text-purple {
+        color: #6f42c1;
+    }
+
+    .bg-orange-soft {
+        background-color: #fff3e0;
+    }
+
+    .border-orange {
+        border-color: #e67e22 !important;
+    }
+
+    .btn-orange {
+        background-color: #e67e22;
+        color: white;
+        border: none;
+    }
+
+        .btn-orange:hover {
+            background-color: #d35400;
+            color: white;
+        }
+
+    .detail-card {
+        border-radius: 15px;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+</style>
+
+<div class="container mt-5 mb-5">
+
+    <div class="mb-4">
+        <a asp-action="Index" class="text-decoration-none text-muted fw-bold">
+            <i class="bi bi-arrow-left me-1"></i> Назад към списъка
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card detail-card">
+
+                <div class="card-header bg-white p-4 border-bottom border-light">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-3 p-3 bg-light me-3 display-4 @colorClass">
+                                <i class="bi @iconClass"></i>
+                            </div>
+                            <div>
+                                <span class="badge bg-orange-soft text-dark border border-warning mb-2">
+                                    @Model.Category
+                                </span>
+                                <h2 class="fw-bold text-dark mb-0">@Model.Title</h2>
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar3 me-1"></i> Качен на: @Model.CreatedOn.ToString("dd MMMM yyyy")
+                                </small>
+                            </div>
+                        </div>
+
+                        @if (User.IsInRole("Teacher") || User.IsInRole("Admin"))
+                        {
+                            <div class="d-flex gap-2">
+                                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-warning text-dark">
+                                    <i class="bi bi-pencil"></i> Редактирай
+                                </a>
+                                <form asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Сигурни ли сте?');">
+                                    <button type="submit" class="btn btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <div class="row g-5">
+
+                        <div class="col-md-8">
+                            <h5 class="fw-bold text-secondary text-uppercase small mb-3">Описание на материала</h5>
+                            <div class="p-4 bg-light rounded-3 border-start border-4 border-orange">
+                                <p class="mb-0" style="white-space: pre-wrap; font-size: 1.1rem; color: #4a4a4a; line-height: 1.6;">@(Model.Description ?? "Няма въведено описание.")</p>
+                            </div>
+
+                            @if (fileTypeStr.Contains("Image"))
+                            {
+                                <div class="mt-4">
+                                    <h5 class="fw-bold text-secondary text-uppercase small mb-3">Преглед</h5>
+                                    <img src="@Model.FileUrl" class="img-fluid rounded shadow-sm border" alt="@Model.FileName" style="max-height: 500px;" />
+                                </div>
+                            }
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card border-0 bg-orange-soft h-100">
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <h5 class="fw-bold mb-4" style="color: #d35400;">
+                                        <i class="bi bi-paperclip me-2"></i>Файл
+                                    </h5>
+
+                                    <div class="mb-4">
+                                        <label class="small text-muted fw-bold">Име на файла:</label>
+                                        <div class="text-dark text-break fw-bold">@Model.FileName</div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="small text-muted fw-bold">Тип:</label>
+                                        <div class="text-dark">@typeLabel</div>
+                                    </div>
+
+                                    <div class="mt-auto">
+                                        <a href="@Model.FileUrl" download="@Model.FileName" class="btn btn-orange w-100 py-3 rounded-pill shadow-sm fw-bold">
+                                            <i class="bi bi-cloud-arrow-down-fill me-2 fs-5"></i> ИЗТЕГЛИ СЕГА
+                                        </a>
+                                        <p class="text-center text-muted small mt-2 mb-0">
+                                            Натисни бутона, за да свалиш ресурса.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

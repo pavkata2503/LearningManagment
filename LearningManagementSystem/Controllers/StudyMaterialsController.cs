@@ -168,11 +168,34 @@ namespace LearningManagementSystem.Controllers
             context.SaveChanges();
             return RedirectToAction("Index");
         }
-        public IActionResult Details(int id)
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
         {
-            var studyMaterial = context.StudyMaterials.Find(id);
+            // Използваме async/await за по-добра производителност
+            var material = await context.StudyMaterials
+                .AsNoTracking() // Оптимизация за read-only
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-            return View(studyMaterial);
+            if (material == null)
+            {
+                return NotFound();
+            }
+
+            // Мапваме към ViewModel (същата логика като в Index)
+            var model = new StudyMaterialViewModel
+            {
+                Id = material.Id,
+                Title = material.Title,
+                Description = material.Description,
+                Category = material.Category,
+                CreatedOn = material.CreateDate,
+                TypeFile = material.TypeFile,
+                FileName = material.FileTitle,
+                // Тук конструираме пътя към файла, както в Index метода
+                FileUrl = $"/Uploads/{material.FileTitle}"
+            };
+
+            return View(model);
         }
         public IActionResult Ascending()
         {

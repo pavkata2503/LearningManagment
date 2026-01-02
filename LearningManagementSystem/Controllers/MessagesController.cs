@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Services.IService;
 
 namespace LearningManagementSystem.Controllers
@@ -57,9 +58,46 @@ namespace LearningManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add(string? replyTo)
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return Unauthorized();
+
+            // 1. Създаваме празен списък за хората, на които може да се пише
+            IList<ApplicationUser> availableReceivers = new List<ApplicationUser>();
+
+            // 2. Проверяваме ролята на текущия потребител
+            // ВНИМАНИЕ: Увери се, че имената на ролите ("Student", "Teacher") съвпадат точно с тези в базата ти данни!
+            if (await _userManager.IsInRoleAsync(user, "Student")) // Ако е ученик
+            {
+                // Взимаме всички учители
+                availableReceivers = await _userManager.GetUsersInRoleAsync("Teacher");
+            }
+            else if (await _userManager.IsInRoleAsync(user, "Teacher")) // Ако е учител
+            {
+                // Взимаме всички ученици
+                availableReceivers = await _userManager.GetUsersInRoleAsync("Student");
+            }
+            else
+            {
+                // Опционално: Ако е администратор, може би искаш да вижда всички?
+                // Засега оставяме списъка празен или може да заредиш всички потребители.
+            }
+
+            // 3. Създаваме SelectList за падащото меню
+            // Първият параметър е списъкът, вторият е какво да запишем в базата (Email), третият е какво да вижда потребителят (пак Email или Name)
+            // Четвъртият параметър (replyTo) избира автоматично правилния човек, ако си натиснал "Отговор"
+            //ViewBag.PotentialReceivers = new SelectList(availableReceivers, "Email", "Email", replyTo);
+            // "Email" е стойността, която се праща, "Name" (или както е пропъртито за име в ApplicationUser) е това, което се вижда
+            ViewBag.PotentialReceivers = new SelectList(availableReceivers, "Email", "Name", replyTo);
+
+            var model = new Message();
+            if (!string.IsNullOrEmpty(replyTo))
+            {
+                model.Receiver = replyTo;
+            }
+
+            return View(model);
         }
 
         [HttpPost]

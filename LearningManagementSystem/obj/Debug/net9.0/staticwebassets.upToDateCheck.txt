@@ -37,6 +37,7 @@ C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\jquery-validation\dist\additional-methods.min.js
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\css\pagination.css
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\jquery\dist\jquery.js
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css
@@ -60,8 +61,11 @@ C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\css\filter.css
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\js\site.js
+wwwroot\css\filter.css
 wwwroot\css\home.css
+wwwroot\css\pagination.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\js\site.js
@@ -125,5 +129,6 @@ wwwroot\lib\jquery-validation\LICENSE.md
 wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.js
 wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js
 wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
+wwwroot\Uploads\9daf1236-1db5-4ea6-9250-c226c32c8e11.png
 wwwroot\Uploads\bac6ba0d-7318-49e6-89f0-26897a4c6e65.jpg
 wwwroot\Uploads\d820703e-8b56-466e-9523-7af6327353ab.jpg

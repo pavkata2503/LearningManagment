@@ -1,95 +1,49 @@
-﻿/*html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
-
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
-}
-
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
-}*/
-
-/* Orange & Brown Theme */
-:root {
+﻿:root {
     --primary-orange: #e67e22;
-    --dark-orange: #d35400;
-    --light-bg: #fdf2e9; /* Светло бежово/оранжево */
-    --brown-text: #5d4037;
-    --soft-white: #ffffff;
+    --light-orange: #fff3e0;
+    --dark-brown: #5d4037;
+    --text-dark: #2c3e50;
 }
 
 body {
-    background-color: #fcf8f5;
-    color: var(--brown-text);
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.text-orange {
-    color: var(--primary-orange) !important;
+
+.navbar-custom {
+    background-color: #ffffff;
+    border-bottom: 3px solid var(--light-orange);
 }
 
-.bg-orange-light {
-    background-color: var(--light-bg) !important;
+.navbar-brand {
+    font-size: 1.5rem;
+    color: var(--dark-brown) !important;
+    letter-spacing: 0.5px;
 }
 
-.btn-orange {
-    background-color: var(--primary-orange);
-    color: white;
-    border: none;
+.nav-link {
+    color: #555 !important;
+    font-weight: 500;
     transition: all 0.3s ease;
+    position: relative;
+    padding: 0.5rem 1rem !important;
 }
 
-    .btn-orange:hover {
-        background-color: var(--dark-orange);
-        color: white;
-        box-shadow: 0 4px 8px rgba(230, 126, 34, 0.3);
+
+    .nav-link:hover, .nav-link.active {
+        color: var(--primary-orange) !important;
+        background-color: var(--light-orange);
+        border-radius: 20px;
     }
 
-.btn-outline-orange {
-    border: 2px solid var(--primary-orange);
-    color: var(--primary-orange);
-    background: transparent;
+
+.dropdown-item:active {
+    background-color: var(--primary-orange);
 }
 
-    .btn-outline-orange:hover {
-        background-color: var(--primary-orange);
-        color: white;
-    }
 
-.card-custom {
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    transition: transform 0.2s;
+footer {
     background-color: white;
-}
-
-    .card-custom:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(230, 126, 34, 0.15);
-    }
-
-.form-control:focus, .form-select:focus {
-    border-color: var(--primary-orange);
-    box-shadow: 0 0 0 0.25rem rgba(230, 126, 34, 0.25);
+    color: #6c757d;
 }

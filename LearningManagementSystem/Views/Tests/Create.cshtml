@@ -74,14 +74,12 @@
                 .replace(/{qNum}/g, questionCount + 1);
 
             container.insertAdjacentHTML('beforeend', html);
-            addOption(questionCount); // Поне една опция в началото
+            addOption(questionCount);
             questionCount++;
         }
 
         function removeQuestion(btn) {
             btn.closest('.question-item').remove();
-            // Забележка: В ASP.NET Core индексите трябва да са поредни (0,1,2...).
-            // Ако изтриеш въпрос по средата, ще има проблем. Най-добре е да не се трие или да се преиндексира всичко.
         }
 
         function addOption(qIdx) {
@@ -100,13 +98,11 @@
             const section = document.getElementById(`optionsContainer_${qIdx}`);
             const optionsList = section.querySelector('.options-list');
 
-            if (select.value == "1") { // Отворен отговор
+            if (select.value == "1") { 
                 section.style.display = "none";
-                // ИЗТРИВАМЕ всички добавени опции, за да не пречат на валидацията
                 optionsList.innerHTML = '';
-            } else { // Избираем отговор
+            } else { 
                 section.style.display = "block";
-                // Ако няма нито една опция, добавяме една автоматично
                 if (optionsList.children.length === 0) {
                     addOption(qIdx);
                 }

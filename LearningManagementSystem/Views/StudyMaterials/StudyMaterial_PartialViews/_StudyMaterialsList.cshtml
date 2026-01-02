@@ -60,8 +60,89 @@
  *@
 @using AppData.Models.ViewModels
 @model IEnumerable<StudyMaterialViewModel>
+<style>
+    .hover-orange:hover {
+        color: #e67e22 !important;
+        transition: color 0.2s;
+    }
+    /* Стилове за картите с материали */
+    .material-card {
+        transition: all 0.3s ease;
+        border-radius: 12px;
+        background: #fff;
+        overflow: hidden;
+        position: relative;
+        border: 1px solid #eee;
+    }
 
-@if (!Model.Any())
+        .material-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+            border-color: var(--primary-orange);
+        }
+
+    .file-icon-wrapper {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+
+    /* Цветови теми за различните формати */
+    .type-pdf {
+        background-color: #ffebee;
+        color: #d32f2f;
+    }
+
+    .type-image {
+        background-color: #ede7f6;
+        color: #673ab7;
+    }
+
+    .type-doc {
+        background-color: #e3f2fd;
+        color: #1976d2;
+    }
+
+    .type-default {
+        background-color: #fff3e0;
+        color: #e67e22;
+    }
+
+    .btn-download {
+        background-color: #f8f9fa;
+        color: #5d4037;
+        border: 1px solid #e0e0e0;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+
+        .btn-download:hover {
+            background-color: var(--primary-orange);
+            color: white;
+            border-color: var(--primary-orange);
+        }
+
+    .delete-btn-corner {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #adb5bd;
+        transition: color 0.2s;
+        background: transparent;
+        border: none;
+    }
+
+        .delete-btn-corner:hover {
+            color: #dc3545;
+        }
+</style>
+@* @if (!Model.Any())
 {
     <div class="text-center py-5">
         <i class="bi bi-folder-x display-1 text-muted"></i>
@@ -120,6 +201,201 @@ else
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+} *@
+
+
+@* @if (!Model.Any())
+{
+    <div class="text-center py-5 bg-white rounded-3 shadow-sm border-0">
+        <div class="mb-3">
+            <i class="bi bi-folder2-open display-1 text-orange opacity-50" style="color: #e67e22;"></i>
+        </div>
+        <h4 class="text-dark fw-bold">Няма намерени материали</h4>
+        <p class="text-muted">Опитайте да промените филтрите или добавете нов материал.</p>
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var item in Model)
+        {
+            // --- ЛОГИКА ЗА ВИД ФАЙЛ (Icon & Color) ---
+            string typeClass = "type-default";
+            string iconClass = "bi-file-earmark-text";
+            string fileTypeLabel = "Файл";
+
+            var fileType = item.TypeFile.ToString();
+
+            if (fileType.Contains("Pdf"))
+            {
+                typeClass = "type-pdf";
+                iconClass = "bi-file-earmark-pdf-fill";
+                fileTypeLabel = "PDF Документ";
+            }
+            else if (fileType.Contains("Image"))
+            {
+                typeClass = "type-image";
+                iconClass = "bi-file-earmark-image-fill";
+                fileTypeLabel = "Изображение";
+            }
+            else if (fileType.Contains("Word") || fileType.Contains("Doc"))
+            {
+                typeClass = "type-doc";
+                iconClass = "bi-file-earmark-word-fill";
+                fileTypeLabel = "Word Документ";
+            }
+            // ------------------------------------------
+
+            <div class="col">
+                <div class="card material-card h-100 shadow-sm">
+                    
+                    <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Сигурни ли сте, че искате да изтриете: @item.Title?');">
+                        <button type="submit" class="delete-btn-corner p-2" title="Изтрий материал">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </form>
+
+                    <div class="card-body p-4 d-flex flex-column">
+                        
+                        <div class="d-flex align-items-start mb-3">
+                            <div class="file-icon-wrapper @typeClass shadow-sm">
+                                <i class="bi @iconClass"></i>
+                            </div>
+                            <div class="mt-1">
+                                <span class="badge bg-light text-secondary border mb-1">@item.Category</span>
+                                <div class="small text-muted" style="font-size: 0.75rem;">@fileTypeLabel</div>
+                            </div>
+                        </div>
+
+                        <h5 class="card-title fw-bold text-dark mb-2 text-truncate" title="@item.Title">
+                            @item.Title
+                        </h5>
+
+                        <p class="card-text text-muted small flex-grow-1 mb-3">
+                            @(item.Description != null && item.Description.Length > 80
+                                ? item.Description.Substring(0, 80) + "..."
+                                : item.Description ?? "Няма описание")
+                        </p>
+
+                        <div class="mt-auto pt-3 border-top border-light d-flex justify-content-between align-items-center">
+                            <small class="text-muted fst-italic">
+                                <i class="bi bi-calendar3 me-1"></i> @item.CreatedOn.ToString("dd MMM yyyy")
+                            </small>
+
+                            <a href="@item.FileUrl" download="@item.FileName" class="btn btn-sm btn-download rounded-pill px-3 shadow-sm">
+                                <i class="bi bi-cloud-arrow-down-fill me-1"></i> Изтегли
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+} *@
+
+
+
+
+@if (!Model.Any())
+{
+    <div class="text-center py-5 bg-white rounded-3 shadow-sm border-0">
+        <div class="mb-3">
+            <i class="bi bi-folder2-open display-1 text-orange opacity-50" style="color: #e67e22;"></i>
+        </div>
+        <h4 class="text-dark fw-bold">Няма намерени материали</h4>
+        <p class="text-muted">Опитайте да промените филтрите или добавете нов материал.</p>
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var item in Model)
+        {
+            // --- ЛОГИКА ЗА ВИД ФАЙЛ ---
+            string typeClass = "type-default";
+            string iconClass = "bi-file-earmark-text";
+            string fileTypeLabel = "Файл";
+
+            var fileType = item.TypeFile.ToString();
+
+            if (fileType.Contains("Pdf"))
+            {
+                typeClass = "type-pdf";
+                iconClass = "bi-file-earmark-pdf-fill";
+                fileTypeLabel = "PDF Документ";
+            }
+            else if (fileType.Contains("Image"))
+            {
+                typeClass = "type-image";
+                iconClass = "bi-file-earmark-image-fill";
+                fileTypeLabel = "Изображение";
+            }
+            else if (fileType.Contains("Word") || fileType.Contains("Doc"))
+            {
+                typeClass = "type-doc";
+                iconClass = "bi-file-earmark-word-fill";
+                fileTypeLabel = "Word Документ";
+            }
+            // --------------------------
+
+            <div class="col">
+                <div class="card material-card h-100 shadow-sm">
+                    
+                    @if (User.IsInRole("Teacher") || User.IsInRole("Admin"))
+                    {
+                        <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Сигурни ли сте, че искате да изтриете: @item.Title?');">
+                            <button type="submit" class="delete-btn-corner p-2" title="Изтрий материал">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </form>
+                    }
+
+                    <div class="card-body p-4 d-flex flex-column">
+                        
+                        <div class="d-flex align-items-start mb-3">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none">
+                                <div class="file-icon-wrapper @typeClass shadow-sm">
+                                    <i class="bi @iconClass"></i>
+                                </div>
+                            </a>
+                            <div class="mt-1">
+                                <span class="badge bg-light text-secondary border mb-1">@item.Category</span>
+                                <div class="small text-muted" style="font-size: 0.75rem;">@fileTypeLabel</div>
+                            </div>
+                        </div>
+
+                        <h5 class="card-title fw-bold mb-2 text-truncate" title="@item.Title">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="text-dark text-decoration-none hover-orange">
+                                @item.Title
+                            </a>
+                        </h5>
+
+                        <p class="card-text text-muted small flex-grow-1 mb-3">
+                            @(item.Description != null && item.Description.Length > 80
+                                ? item.Description.Substring(0, 80) + "..."
+                                : item.Description ?? "Няма описание")
+                        </p>
+
+                        <div class="mt-auto pt-3 border-top border-light d-flex justify-content-between align-items-center">
+                            <small class="text-muted fst-italic" style="font-size: 0.75rem;">
+                                @item.CreatedOn.ToString("dd.MM.yyyy")
+                            </small>
+
+                            <div class="d-flex gap-2">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-light border shadow-sm text-secondary" title="Преглед">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+
+                                <a href="@item.FileUrl" download="@item.FileName" class="btn btn-sm btn-download rounded-pill px-3 shadow-sm" title="Изтегли">
+                                    <i class="bi bi-cloud-arrow-down-fill"></i>
+                                </a>
                             </div>
                         </div>
                     </div>

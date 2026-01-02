@@ -4,29 +4,41 @@
     ViewData["Title"] = "New Message";
 }
 
-<h2 class="mb-3">Send Message</h2>
+<h2 class="mb-3">Изпрати съобщение</h2>
 
 <form asp-action="Add" method="post" class="card p-4 shadow-sm">
 
-    <div class="mb-3">
-        <label asp-for="Receiver" class="form-label">Receiver Email</label>
+    @* <div class="mb-3">
+        <label asp-for="Receiver" class="form-label">Получател</label>
         <input asp-for="Receiver" class="form-control" />
+        <span asp-validation-for="Receiver" class="text-danger"></span>
+    </div> *@
+
+    <div class="form-group">
+        <label asp-for="Receiver" class="control-label">Избери Получател</label>
+
+        <select asp-for="Receiver"
+                class="form-control"
+                asp-items="ViewBag.PotentialReceivers">
+            <option value="">-- Избери човек --</option>
+        </select>
+
         <span asp-validation-for="Receiver" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Text" class="form-label">Message</label>
+        <label asp-for="Text" class="form-label">Текст на съобщението</label>
         <textarea asp-for="Text" class="form-control" rows="5"></textarea>
         <span asp-validation-for="Text" class="text-danger"></span>
     </div>
 
     <div class="d-flex gap-2">
         <button type="submit" class="btn btn-success">
-            Send
+            Изпрати
         </button>
 
         <a asp-action="Index" class="btn btn-secondary">
-            Cancel
+            Откажи
         </a>
     </div>
 </form>

@@ -1,97 +1,9 @@
-﻿@* @using AppData.Models
+﻿@using AppData.Models
 @model IEnumerable<Message>
 
 @{
     ViewData["Title"] = "Съобщения";
-    // Взимаме текущата стойност от контролера (null = Всички, false = Непрочетени, true = Прочетени)
-    var currentIsRead = ViewBag.CurrentIsRead as bool?;
-}
-
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold" style="color: #5d4037;">
-            <i class="bi bi-chat-left-text me-2"></i>Съобщения
-        </h2>
-
-        <div class="d-flex gap-2 align-items-center">
-            <form method="get" asp-action="Index" class="d-flex align-items-center">
-                <input type="hidden" name="receiver" value="@ViewBag.CurrentReceiver" />
-                <input type="hidden" name="pageSize" value="@ViewBag.PageSize" />
-
-                <select name="isRead" class="form-select border-orange text-secondary" style="border-color: #e67e22;" onchange="this.form.submit()">
-                    <!option value="" @(currentIsRead == null ? "selected" : "")>Всички съобщения</!option>
-                    <!option value="false" @(currentIsRead == false ? "selected" : "")>Непрочетени</!option>
-                    <!option value="true" @(currentIsRead == true ? "selected" : "")>Прочетени</!option>
-                </select>
-            </form>
-
-            <a asp-action="Add" class="btn btn-orange rounded-pill px-4 text-white" style="background-color: #e67e22;">
-                <i class="bi bi-pencil-square me-2"></i>Ново
-            </a>
-        </div>
-    </div>
-
-    @if (!Model.Any())
-    {
-        <div class="alert alert-warning text-center border-0 shadow-sm text-dark" style="background-color: #fff3e0;" role="alert">
-            <i class="bi bi-inbox me-2"></i>Няма намерени съобщения в тази категория.
-        </div>
-    }
-    else
-    {
-        <div class="list-group shadow-sm border-0 rounded-3">
-            @foreach (var msg in Model)
-            {
-                // ЛОГИКА ЗА СТИЛИЗИРАНЕ
-                // Ако е прочетено: бял фон, сив бордюр, нормален текст
-                // Ако е НЕпрочетено: лек оранжев фон, оранжев бордюр, удебелен текст
-                bool isUnread = !msg.IsRead;
-
-                string bgColor = isUnread ? "background-color: #fff9f0;" : "background-color: #fff;";
-                string borderColor = isUnread ? "#e67e22" : "#ced4da";
-                string textColor = isUnread ? "text-dark fw-bold" : "text-muted";
-                string iconClass = isUnread ? "bi-envelope-fill text-orange" : "bi-envelope-open";
-                string iconStyle = isUnread ? "color: #e67e22;" : "";
-
-                <a asp-action="Details" asp-route-id="@msg.Id"
-                   class="list-group-item list-group-item-action border-0 mb-2 rounded-3 p-3 position-relative"
-                   style="border-left: 5px solid @borderColor !important; @bgColor">
-
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1 @textColor">
-                            <i class="bi @iconClass me-2" style="@iconStyle"></i>
-                            От: @msg.Sender
-                        </h5>
-                        <small class="@(isUnread ? "text-dark fw-bold" : "text-muted")">
-                            <i class="bi bi-clock me-1"></i>@msg.SendDate.ToString("dd.MM.yyyy HH:mm")
-                        </small>
-                    </div>
-
-                    <p class="mb-1 mt-2 text-truncate @(isUnread ? "text-dark" : "text-secondary")" style="max-width: 90%;">
-                        @msg.Text
-                    </p>
-
-                    @if (isUnread)
-                    {
-                        <span class="position-absolute top-0 end-0 translate-middle p-2 bg-danger border border-light rounded-circle" style="margin-top: 15px; margin-right: 15px;">
-                            <span class="visually-hidden">New alerts</span>
-                        </span>
-                    }
-                </a>
-            }
-        </div>
-
-    }
-</div> *@
-
-
-
-@using AppData.Models
-@model IEnumerable<Message>
-
-@{
-    ViewData["Title"] = "Съобщения";
-    // Взимаме текущата стойност от контролера (null = Всички, false = Непрочетени, true = Прочетени)
+   
     var currentIsRead = ViewBag.CurrentIsRead as bool?;
 }
 
@@ -176,11 +88,11 @@
 <script>
     const searchInput = document.getElementById("searchInput");
 
-    // Запазваме оригиналния текст, за да не се чупи HTML-а при триене на букви
+    
     const originalTexts = [];
     const textEls = document.getElementsByClassName("text");
 
-    // При зареждане, запазваме оригиналните текстове
+    
     for(let i=0; i < textEls.length; i++) {
         originalTexts.push(textEls[i].innerText);
     }
@@ -191,29 +103,29 @@
 
     function searchMessages(inputEl) {
         const query = inputEl.value.toLowerCase();
-        const textElsDivs = document.getElementsByClassName("search"); // Това са <a> елементите
+        const textElsDivs = document.getElementsByClassName("search");
 
         for (let i = 0; i < textEls.length; i++) {
             const el = textEls[i];
-            // Винаги търсим в оригиналния текст, за да избегнем проблеми с HTML таговете <b>
+            
             const originalText = originalTexts[i];
             const lowerText = originalText.toLowerCase();
 
             if (lowerText.includes(query)) {
-                textElsDivs[i].style.display = "block"; // Показваме картата
+                textElsDivs[i].style.display = "block"; 
 
-                // Хайлайтване на текста (ако има заявка)
+                
                 if(query.length > 0) {
-                     // Ескейпваме специални regex символи, за да не гръмне скрипта
+                     
                     const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                     const regex = new RegExp(`(${safeQuery})`, 'ig');
                     el.innerHTML = originalText.replace(regex, '<b style="background-color: yellow; color: black;">$1</b>');
                 } else {
-                    el.innerText = originalText; // Връщаме нормалния текст
+                    el.innerText = originalText;
                 }
 
             } else {
-                textElsDivs[i].style.display = "none"; // Крием картата
+                textElsDivs[i].style.display = "none"; 
             }
         }
     }
