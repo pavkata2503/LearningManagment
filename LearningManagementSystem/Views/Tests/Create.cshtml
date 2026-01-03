@@ -1,15 +1,20 @@
-﻿@model CreateTestViewModel
+﻿@model AppData.Models.ViewModels.CreateTestViewModel
 @using AppData.Enums
 @using AppData.Models.ViewModels
 
 <div class="container">
-    <h2>Добавяне на тест към: @Model.MaterialTitle</h2>
-    <hr />
+    <h2>Създаване на нов тест</h2> <hr />
 
     <form asp-action="Create" method="post" id="testForm">
         @Html.AntiForgeryToken()
-        <input type="hidden" asp-for="MaterialId" />
 
+        <div class="form-group mb-4">
+            <label asp-for="MaterialId" class="form-label fw-bold">Избери учебен материал:</label>
+            <select asp-for="MaterialId" asp-items="Model.MaterialsList" class="form-select">
+                <option value="">-- Избери материал --</option>
+            </select>
+            <span asp-validation-for="MaterialId" class="text-danger"></span>
+        </div>
         <div asp-validation-summary="All" class="text-danger"></div>
 
         <div id="questionsContainer">
@@ -98,10 +103,10 @@
             const section = document.getElementById(`optionsContainer_${qIdx}`);
             const optionsList = section.querySelector('.options-list');
 
-            if (select.value == "1") { 
+            if (select.value == "1") {
                 section.style.display = "none";
                 optionsList.innerHTML = '';
-            } else { 
+            } else {
                 section.style.display = "block";
                 if (optionsList.children.length === 0) {
                     addOption(qIdx);

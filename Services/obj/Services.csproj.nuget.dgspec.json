@@ -58,6 +58,10 @@
               "target": "Package",
               "version": "[2.3.0, )"
             },
+            "Microsoft.AspNetCore.Mvc.ViewFeatures": {
+              "target": "Package",
+              "version": "[2.3.0, )"
+            },
             "Microsoft.Build.Framework": {
               "target": "Package",
               "version": "[17.8.3, )"

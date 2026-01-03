@@ -4,6 +4,7 @@ using AppData.Models.ViewModels;
 using DataContext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -79,17 +80,25 @@ namespace LearningManagementSystem.Controllers
             return RedirectToAction("Results", new { id = result.Id });
         }
 
-        // GET: Отваряне на формата за създаване
-        public async Task<IActionResult> Create(int materialId)
+        [HttpGet]
+        public async Task<IActionResult> Create(int? materialId)
         {
-            var material = await _context.StudyMaterials.FindAsync(materialId);
-            if (material == null) return NotFound();
+            // Взимаме всички материали и маркираме избрания, ако има подадено ID
+            var materials = await _context.StudyMaterials
+                .Select(m => new SelectListItem
+                {
+                    Value = m.Id.ToString(),
+                    Text = m.Title,
+                    Selected = materialId.HasValue && m.Id == materialId
+                })
+                .ToListAsync();
 
             var model = new CreateTestViewModel
             {
-                MaterialId = materialId,
-                MaterialTitle = material.Title
+                MaterialsList = materials,
+                MaterialId = materialId ?? 0
             };
+
             return View(model);
         }
 
@@ -244,6 +253,31 @@ namespace LearningManagementSystem.Controllers
             };
 
             return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Teacher")] // Само учители могат да трият
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int materialId)
+        {
+            // 1. Намираме всички въпроси за този материал
+            var questions = await _context.Questions
+                .Where(q => q.StudyMaterialId == materialId)
+                .ToListAsync();
+
+            if (!questions.Any())
+            {
+                return NotFound();
+            }
+
+            // 2. Изтриваме ги наведнъж
+            _context.Questions.RemoveRange(questions);
+
+            // 3. Запазваме промените
+            await _context.SaveChangesAsync();
+
+            // Връщаме се към списъка с тестове
+            return RedirectToAction(nameof(Index));
         }
     }
 }

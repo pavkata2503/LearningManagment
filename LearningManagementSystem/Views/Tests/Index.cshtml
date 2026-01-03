@@ -1,22 +1,158 @@
 ﻿@model IEnumerable<AppData.Models.ViewModels.TestListViewModel>
 
-<div class="container">
-    <h2 class="my-4">Налични тестове</h2>
-    <div class="row">
-        @foreach (var test in Model)
+@{
+    ViewData["Title"] = "Тестове";
+}
+
+<style>
+    :root {
+        --primary-orange: #e67e22;
+    }
+    /* Копирай CSS кода отгоре тук */
+    .test-card {
+        transition: all 0.3s ease;
+        border: 1px solid #eee;
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+    }
+
+        .test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(230, 126, 34, 0.15) !important; /* Оранжева сянка */
+            border-color: #e67e22;
+        }
+
+    .test-icon-wrapper {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #fff3e0; /* Светло оранжево */
+        color: #e67e22;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .btn-start-test {
+        background-color: #e67e22;
+        color: white;
+        font-weight: 600;
+        border: none;
+        transition: all 0.2s;
+    }
+
+        .btn-start-test:hover {
+            background-color: #d35400;
+            color: white;
+            transform: scale(1.02);
+        }
+
+    .question-count-badge {
+        background-color: #f8f9fa;
+        color: #6c757d;
+        border: 1px solid #dee2e6;
+        font-size: 0.8rem;
+        padding: 5px 10px;
+        border-radius: 20px;
+    }
+</style>
+
+<div class="container mt-4 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <div>
+            <h2 class="fw-bold mb-0" style="color: #5d4037;">
+                <i class="bi bi-ui-checks me-2 text-orange" style="color: #e67e22;"></i>Налични тестове
+            </h2>
+            <p class="text-muted small mb-0 mt-1">Проверете знанията си чрез нашите интерактивни тестове.</p>
+        </div>
+
+        @if (User.IsInRole("Teacher"))
         {
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <span class="badge bg-info mb-2">@test.Category</span>
-                        <h5 class="card-title">@test.Title</h5>
-                        <p class="text-muted small">Брой въпроси: @test.QuestionsCount</p>
-                    </div>
-                    <div class="card-footer bg-white border-top-0">
-                        <a asp-action="Solve" asp-route-id="@test.MaterialId" class="btn btn-primary w-100">Реши теста</a>
-                    </div>
-                </div>
-            </div>
+            <a asp-action="Create" class="btn btn-orange rounded-pill px-4 text-white shadow-sm" style="background-color: #e67e22;">
+                <i class="bi bi-plus-lg me-2"></i>Създай нов тест
+            </a>
         }
     </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5 bg-white rounded-3 shadow-sm border-0">
+            <div class="mb-3">
+                <i class="bi bi-clipboard-x display-1 text-orange opacity-50" style="color: #e67e22;"></i>
+            </div>
+            <h4 class="text-dark fw-bold">Няма намерени тестове</h4>
+            <p class="text-muted">Все още няма добавени тестове в системата.</p>
+            @if (User.IsInRole("Teacher"))
+            {
+                <a asp-action="Create" class="btn btn-outline-secondary mt-2">Създай първия тест</a>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var test in Model)
+            {
+                <div class="col">
+                    <div class="card test-card h-100 shadow-sm border-0">
+
+                        <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-start pt-3 px-3">
+                            <span class="badge bg-light border border-warning" style="color: #d35400">
+                                @test.Category
+                            </span>
+
+                            @if (User.IsInRole("Teacher"))
+                            {
+                                <form asp-action="Delete" asp-route-materialId="@test.MaterialId" method="post" onsubmit="return confirm('ВНИМАНИЕ: Изтриването на теста ще изтрие и всички въпроси към него! Сигурни ли сте?');">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm text-muted hover-danger p-0" title="Изтрий тест">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                </form>
+                            }
+                        </div>
+
+                        <div class="card-body text-center pt-0 pb-4 px-4">
+                            <div class="test-icon-wrapper mx-auto shadow-sm">
+                                <i class="bi bi-pencil-square"></i>
+                            </div>
+
+                            <h5 class="card-title fw-bold text-dark mb-2 text-truncate" title="@test.Title">
+                                @test.Title
+                            </h5>
+
+                            <div class="mb-4">
+                                <span class="question-count-badge">
+                                    <i class="bi bi-list-ol me-1"></i> @test.QuestionsCount въпроса
+                                </span>
+                            </div>
+
+                            <div class="d-grid">
+                                <a asp-action="Solve" asp-route-id="@test.MaterialId" class="btn btn-start-test rounded-pill py-2 shadow-sm">
+                                    <i class="bi bi-play-fill me-1"></i> Започни теста
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card-footer bg-light border-0 py-2 text-center">
+                            <small class="text-muted" style="font-size: 0.7rem;">Успех!</small>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
 </div>
+
+<style>
+    .hover-danger:hover {
+        color: #dc3545 !important;
+        transform: scale(1.2);
+        transition: all 0.2s;
+    }
+</style>

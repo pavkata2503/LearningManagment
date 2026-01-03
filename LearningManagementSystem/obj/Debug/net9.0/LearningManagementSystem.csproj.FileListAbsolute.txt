@@ -447,3 +447,5 @@ C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\compressed\myqnqyzto8-8qgb823hrt.gz
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\compressed\z8lcw6gz5a-0s6na1sxdn.gz
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\compressed\u9fxw43ph3-v3h824ipl9.gz
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\bin\Debug\net9.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\bin\Debug\net9.0\Newtonsoft.Json.Bson.dll
