@@ -16,5 +16,6 @@ namespace AppData.Models
         public int Score { get; set; } // Например брой точки или процент
         public DateTime CompletedOn { get; set; } = DateTime.Now;
         public StudyMaterial StudyMaterial { get; set; } = null!;
+        public List<UserTestAnswer> Answers { get; set; } = new();
     }
 }

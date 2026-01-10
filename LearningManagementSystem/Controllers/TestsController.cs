@@ -189,70 +189,118 @@ namespace LearningManagementSystem.Controllers
             return View(model);
         }
 
-        // 3. Обработка на отговорите (POST)
+        // 3. Обработка на отговорите (POST) - ПРОМЕНЕН
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Solve(SolveTestViewModel model)
         {
             int correctCount = 0;
+            
+            // Взимаме въпросите от базата, за да сме сигурни, че проверяваме правилно
             var questions = await _context.Questions
                 .Include(q => q.Options)
                 .Where(q => q.StudyMaterialId == model.MaterialId)
                 .ToListAsync();
+
+            var userAnswersList = new List<UserTestAnswer>();
 
             foreach (var submittedQ in model.Questions)
             {
                 var dbQ = questions.FirstOrDefault(q => q.Id == submittedQ.QuestionId);
                 if (dbQ == null) continue;
 
+                // Създаваме запис за отговора на потребителя
+                var userAnswer = new UserTestAnswer
+                {
+                    QuestionId = dbQ.Id,
+                    SelectedOptionId = submittedQ.SelectedOptionId
+                };
+                userAnswersList.Add(userAnswer);
+
                 if (dbQ.Type == QuestionType.MultipleChoice)
                 {
-                    // Проверка дали избраната опция е маркирана като вярна в базата
                     if (dbQ.Options.Any(o => o.Id == submittedQ.SelectedOptionId && o.IsCorrect))
                     {
                         correctCount++;
                     }
                 }
-                else // За отворени въпроси - тук е примерна логика за точно съвпадение
-                {
-                    // В реална система отворените въпроси често се проверяват ръчно, 
-                    // но тук можем да сравняваме текст (ако си добавил CorrectTextAnswer в модела)
-                }
             }
 
-            // Записваме резултата в базата
+            // Записваме резултата + детайлните отговори
             var result = new UserTestResult
             {
                 UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
                 StudyMaterialId = model.MaterialId,
                 Score = correctCount,
-                CompletedOn = DateTime.Now
+                CompletedOn = DateTime.Now,
+                Answers = userAnswersList // Entity Framework автоматично ще ги свърже
             };
+
             _context.UserTestResults.Add(result);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Result", new { id = result.Id });
         }
 
-        // 4. Показване на крайния резултат
+        // 4. Показване на крайния резултат (За ученика ИЛИ за учителя)
         public async Task<IActionResult> Result(int id)
         {
             var result = await _context.UserTestResults
                 .Include(r => r.StudyMaterial)
+                .Include(r => r.User) // ВАЖНО: Взимаме и потребителя (ученика)
+                .Include(r => r.Answers)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
             if (result == null) return NotFound();
 
-            var totalQuestions = await _context.Questions.CountAsync(q => q.StudyMaterialId == result.StudyMaterialId);
+            // СИГУРНОСТ: Проверка дали потребителят има право да вижда този резултат
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            bool isTeacher = User.IsInRole("Teacher");
+
+            // Ако не си учителят и не си авторът на теста -> Забранено
+            if (result.UserId != currentUserId && !isTeacher)
+            {
+                return Forbid();
+            }
+
+            var questions = await _context.Questions
+                .Include(q => q.Options)
+                .Where(q => q.StudyMaterialId == result.StudyMaterialId)
+                .ToListAsync();
 
             var model = new TestResultViewModel
             {
                 MaterialTitle = result.StudyMaterial.Title,
-                TotalQuestions = totalQuestions,
-                CorrectAnswers = result.Score
+                StudentUsername = result.User?.UserName ?? "Неизвестен", // Попълваме името
+                TotalQuestions = questions.Count,
+                CorrectAnswers = result.Score,
+                QuestionsReview = questions.Select(q => new QuestionReviewViewModel
+                {
+                    Content = q.Content,
+                    UserSelectedOptionId = result.Answers.FirstOrDefault(a => a.QuestionId == q.Id)?.SelectedOptionId,
+                    Options = q.Options.Select(o => new OptionReviewViewModel
+                    {
+                        Id = o.Id,
+                        Text = o.Text,
+                        IsCorrect = o.IsCorrect
+                    }).ToList()
+                }).ToList()
             };
 
             return View(model);
+        }
+
+        // 5. НОВО: Статистика за учители
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> AllStudentResults()
+        {
+            var results = await _context.UserTestResults
+                .Include(r => r.User)
+                .Include(r => r.StudyMaterial)
+                .OrderByDescending(r => r.CompletedOn)
+                .ToListAsync();
+
+            return View(results);
         }
 
         [HttpPost]

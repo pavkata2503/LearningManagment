@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataContext.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251226153742_Initial")]
+    [Migration("20260110115623_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -109,9 +109,6 @@ namespace DataContext.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AppliationUserId")
-                        .HasColumnType("int");
 
                     b.Property<string>("ApplicationUserId")
                         .IsRequired()
@@ -256,6 +253,34 @@ namespace DataContext.Migrations
                     b.ToTable("StudyMaterials");
                 });
 
+            modelBuilder.Entity("AppData.Models.UserTestAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SelectedOptionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserTestResultId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("SelectedOptionId");
+
+                    b.HasIndex("UserTestResultId");
+
+                    b.ToTable("UserTestAnswers");
+                });
+
             modelBuilder.Entity("AppData.Models.UserTestResult", b =>
                 {
                     b.Property<int>("Id")
@@ -278,6 +303,8 @@ namespace DataContext.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StudyMaterialId");
 
                     b.HasIndex("UserId");
 
@@ -442,7 +469,7 @@ namespace DataContext.Migrations
             modelBuilder.Entity("AppData.Models.Question", b =>
                 {
                     b.HasOne("AppData.Models.StudyMaterial", "StudyMaterial")
-                        .WithMany()
+                        .WithMany("Questions")
                         .HasForeignKey("StudyMaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -459,13 +486,46 @@ namespace DataContext.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
+            modelBuilder.Entity("AppData.Models.UserTestAnswer", b =>
+                {
+                    b.HasOne("AppData.Models.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AppData.Models.Option", "SelectedOption")
+                        .WithMany()
+                        .HasForeignKey("SelectedOptionId");
+
+                    b.HasOne("AppData.Models.UserTestResult", "UserTestResult")
+                        .WithMany("Answers")
+                        .HasForeignKey("UserTestResultId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+
+                    b.Navigation("SelectedOption");
+
+                    b.Navigation("UserTestResult");
+                });
+
             modelBuilder.Entity("AppData.Models.UserTestResult", b =>
                 {
+                    b.HasOne("AppData.Models.StudyMaterial", "StudyMaterial")
+                        .WithMany()
+                        .HasForeignKey("StudyMaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AppData.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("StudyMaterial");
 
                     b.Navigation("User");
                 });
@@ -531,6 +591,16 @@ namespace DataContext.Migrations
             modelBuilder.Entity("AppData.Models.Question", b =>
                 {
                     b.Navigation("Options");
+                });
+
+            modelBuilder.Entity("AppData.Models.StudyMaterial", b =>
+                {
+                    b.Navigation("Questions");
+                });
+
+            modelBuilder.Entity("AppData.Models.UserTestResult", b =>
+                {
+                    b.Navigation("Answers");
                 });
 #pragma warning restore 612, 618
         }

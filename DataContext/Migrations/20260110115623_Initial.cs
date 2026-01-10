@@ -170,7 +170,6 @@ namespace DataContext.Migrations
                     Receiver = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SenderEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppliationUserId = table.Column<int>(type: "int", nullable: false),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     SendDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsRead = table.Column<bool>(type: "bit", nullable: false)
@@ -217,6 +216,27 @@ namespace DataContext.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Questions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    StudyMaterialId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Questions_StudyMaterials_StudyMaterialId",
+                        column: x => x.StudyMaterialId,
+                        principalTable: "StudyMaterials",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserTestResults",
                 columns: table => new
                 {
@@ -236,23 +256,8 @@ namespace DataContext.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Questions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    StudyMaterialId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Questions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Questions_StudyMaterials_StudyMaterialId",
+                        name: "FK_UserTestResults_StudyMaterials_StudyMaterialId",
                         column: x => x.StudyMaterialId,
                         principalTable: "StudyMaterials",
                         principalColumn: "Id",
@@ -276,6 +281,38 @@ namespace DataContext.Migrations
                         name: "FK_Options_Questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserTestAnswers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserTestResultId = table.Column<int>(type: "int", nullable: false),
+                    QuestionId = table.Column<int>(type: "int", nullable: false),
+                    SelectedOptionId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTestAnswers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserTestAnswers_Options_SelectedOptionId",
+                        column: x => x.SelectedOptionId,
+                        principalTable: "Options",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UserTestAnswers_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserTestAnswers_UserTestResults_UserTestResultId",
+                        column: x => x.UserTestResultId,
+                        principalTable: "UserTestResults",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -340,6 +377,26 @@ namespace DataContext.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserTestAnswers_QuestionId",
+                table: "UserTestAnswers",
+                column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTestAnswers_SelectedOptionId",
+                table: "UserTestAnswers",
+                column: "SelectedOptionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTestAnswers_UserTestResultId",
+                table: "UserTestAnswers",
+                column: "UserTestResultId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTestResults_StudyMaterialId",
+                table: "UserTestResults",
+                column: "StudyMaterialId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserTestResults_UserId",
                 table: "UserTestResults",
                 column: "UserId");
@@ -367,13 +424,16 @@ namespace DataContext.Migrations
                 name: "Messages");
 
             migrationBuilder.DropTable(
+                name: "UserTestAnswers");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
                 name: "Options");
 
             migrationBuilder.DropTable(
                 name: "UserTestResults");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Questions");

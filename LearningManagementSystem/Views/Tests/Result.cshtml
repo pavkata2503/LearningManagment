@@ -1,4 +1,4 @@
-﻿@using AppData.Models.ViewModels
+﻿@* @using AppData.Models.ViewModels
 @model TestResultViewModel
 
 <div class="container py-5">
@@ -32,4 +32,94 @@
             </div>
         </div>
     </div>
+</div> *@
+
+
+@model AppData.Models.ViewModels.TestResultViewModel
+
+<div class="container mt-5">
+    @if (User.IsInRole("Teacher"))
+    {
+        <div class="alert alert-info d-flex align-items-center mb-4">
+            <i class="bi bi-info-circle-fill me-2 fs-4"></i>
+            <div>
+                <strong>Режим на проверка:</strong> Преглеждате резултатите на ученик: <span class="fw-bold text-uppercase">@Model.StudentUsername</span>
+            </div>
+        </div>
+    }
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body text-center p-5">
+            <h1 class="display-4 text-primary fw-bold mb-3">Резултати</h1>
+            <h3 class="text-muted">@Model.MaterialTitle</h3>
+
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-4">
+                    <div class="p-3 bg-light rounded-3">
+                        <div class="display-6 fw-bold @(Model.Percentage >= 50 ? "text-success" : "text-danger")">
+                            @Model.CorrectAnswers / @Model.TotalQuestions
+                        </div>
+                        <div class="text-muted">Точки</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 bg-light rounded-3">
+                        <div class="display-6 fw-bold">@Model.Percentage.ToString("F0")%</div>
+                        <div class="text-muted">Успеваемост</div>
+                    </div>
+                </div>
+            </div>
+
+            <a asp-action="Index" class="btn btn-outline-primary mt-4">Обратно към тестовете</a>
+        </div>
+    </div>
+
+    <h3 class="mb-4 text-secondary">Преглед на отговорите:</h3>
+
+    @foreach (var question in Model.QuestionsReview)
+    {
+        <div class="card mb-3 border-0 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title fw-bold">@question.Content</h5>
+                <hr />
+                <ul class="list-group list-group-flush">
+                    @foreach (var option in question.Options)
+                    {
+                        string listClass = "list-group-item";
+
+                        // Логика за оцветяване
+                        bool isSelected = question.UserSelectedOptionId == option.Id;
+                        bool isCorrect = option.IsCorrect;
+
+                        if (isCorrect)
+                        {
+                            listClass += " list-group-item-success"; // Зелено за верен отговор
+                        }
+                        else if (isSelected && !isCorrect)
+                        {
+                            listClass += " list-group-item-danger"; // Червено ако сме сгрешили
+                        }
+
+                        <li class="@listClass d-flex justify-content-between align-items-center">
+                            <span>
+                                @if (isSelected)
+                                {
+                                    <i class="bi bi-person-check-fill me-2" title="Твоят отговор"></i>
+                                }
+                                @option.Text
+                            </span>
+
+                            @if (isCorrect)
+                            {
+                                <span class="badge bg-success"><i class="bi bi-check-lg"></i> Верен</span>
+                            }
+                            @if (isSelected && !isCorrect)
+                            {
+                                <span class="badge bg-danger"><i class="bi bi-x-lg"></i> Твоят избор</span>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
 </div>

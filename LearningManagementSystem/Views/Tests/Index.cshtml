@@ -24,6 +24,20 @@
             border-color: #e67e22;
         }
 
+    /* Добави това към другите стилове */
+    .btn-outline-orange {
+        color: #e67e22;
+        border-color: #e67e22;
+        font-weight: 600;
+        background-color: white;
+        transition: all 0.2s;
+    }
+
+        .btn-outline-orange:hover {
+            background-color: #e67e22;
+            color: white;
+        }
+
     .test-icon-wrapper {
         width: 50px;
         height: 50px;
@@ -73,9 +87,15 @@
 
         @if (User.IsInRole("Teacher"))
         {
-            <a asp-action="Create" class="btn btn-orange rounded-pill px-4 text-white shadow-sm" style="background-color: #e67e22;">
-                <i class="bi bi-plus-lg me-2"></i>Създай нов тест
-            </a>
+            <div class="d-flex gap-2">
+                <a asp-action="AllStudentResults" class="btn btn-outline-orange rounded-pill px-4 shadow-sm">
+                    <i class="bi bi-journal-check me-2"></i>Резултати на ученици
+                </a>
+
+                <a asp-action="Create" class="btn btn-orange rounded-pill px-4 text-white shadow-sm" style="background-color: #e67e22;">
+                    <i class="bi bi-plus-lg me-2"></i>Създай нов тест
+                </a>
+            </div>
         }
     </div>
 
