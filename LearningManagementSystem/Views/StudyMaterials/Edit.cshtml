@@ -1,0 +1,110 @@
+﻿@using AppData.Enums
+@model AppData.Models.StudyMaterial
+
+@{
+    ViewData["Title"] = "Редактиране на материал";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Редактиране на учебен материал</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+
+                        <input type="hidden" asp-for="Id" />
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="Title" class="form-label">Заглавие</label>
+                                <input asp-for="Title" class="form-control" placeholder="Въведете заглавие..." />
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Subject" class="form-label">Предмет</label>
+                                <input asp-for="Subject" class="form-control" />
+                                <span asp-validation-for="Subject" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Class" class="form-label">Клас (1-12)</label>
+                                <input asp-for="Class" type="number" min="1" max="12" class="form-control" />
+                                <span asp-validation-for="Class" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Category" class="form-label">Категория</label>
+                                <select asp-for="Category" class="form-select" asp-items="Html.GetEnumSelectList<Category>()">
+                                    <option selected disabled>-- Избери категория --</option>
+                                </select>
+                                <span asp-validation-for="Category" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="TypeFile" class="form-label">Вид на материала</label>
+                                <select asp-for="TypeFile" class="form-select" asp-items="Html.GetEnumSelectList<TypeFile>()">
+                                    <option selected disabled>-- Избери вид --</option>
+                                </select>
+                                <span asp-validation-for="TypeFile" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="URL" class="form-label">URL (Видео връзка и др.)</label>
+                            <input asp-for="URL" class="form-control" placeholder="https://..." />
+                            <span asp-validation-for="URL" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label">Описание</label>
+                            <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="card bg-light mb-4">
+                            <div class="card-body">
+                                <h6 class="card-title">Управление на файл</h6>
+
+                                <div class="mb-2">
+                                    <strong>Текущ файл:</strong>
+                                    @if (!string.IsNullOrEmpty(Model.FileTitle))
+                                    {
+                                        <span class="text-success"><i class="bi bi-file-earmark-check"></i> @Model.FileTitle</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Няма качен файл.</span>
+                                    }
+                                </div>
+
+                                <label asp-for="FileUpload" class="form-label">Качи нов файл (остави празно, за да запазиш текущия)</label>
+                                <input asp-for="FileUpload" type="file" class="form-control" />
+                                <span asp-validation-for="FileUpload" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-secondary">Назад</a>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="bi bi-pencil-square"></i> Запази промените
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

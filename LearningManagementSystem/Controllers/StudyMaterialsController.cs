@@ -98,10 +98,12 @@ namespace LearningManagementSystem.Controllers
         }
 
         [Authorize(Roles = "Teacher")]
-        public IActionResult Edit(int id)
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
         {
-            var studyMaterial = context.StudyMaterials
-                .FirstOrDefault(m => m.Id == id);
+            // Използваме FindAsync за по-добро бързодействие
+            var studyMaterial = await context.StudyMaterials.FindAsync(id);
+
             if (studyMaterial == null)
             {
                 return NotFound();
@@ -111,46 +113,48 @@ namespace LearningManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(StudyMaterial studyMaterial)
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> Edit(StudyMaterial model)
         {
-            var userId = User.Claims.FirstOrDefault(a => a.Type == ClaimTypes.NameIdentifier)?.Value;
+            var existingMaterial = await context.StudyMaterials.FindAsync(model.Id);
 
-            if (userId == null)
+            if (existingMaterial == null)
             {
-                throw new ArgumentException("Invalid user.");
+                return NotFound();
             }
-            var user = await _userManager.FindByIdAsync(userId);
-            studyMaterial.CreatedByName = user.Email;
-            if (studyMaterial.FileUpload != null)
+
+            if (model.FileUpload != null)
             {
-                var fileResult = _fileService.SaveImage(studyMaterial.FileUpload);
-                if (fileResult.Item1 == 1)
+                var fileResult = _fileService.SaveImage(model.FileUpload);
+
+                if (fileResult.Item1 == 1) 
                 {
-                    studyMaterial.FileTitle = studyMaterial.Title;
-                    studyMaterial.FileTitle = fileResult.Item2;
+                    existingMaterial.FileTitle = fileResult.Item2; 
                 }
-                else
+                else 
                 {
                     ModelState.AddModelError(string.Empty, fileResult.Item2);
-                    return View(studyMaterial);
+                    return View(model);
                 }
             }
-            else
-            {
-                var existingMaterial = context.StudyMaterials.AsNoTracking().FirstOrDefault(m => m.Id == studyMaterial.Id);
-                if (existingMaterial != null)
-                {
-                    studyMaterial.FileTitle = existingMaterial.FileTitle;
-                }
-            }
+            existingMaterial.Title = model.Title;
+            existingMaterial.Description = model.Description;
+            existingMaterial.Category = model.Category;
+            existingMaterial.TypeFile = model.TypeFile;
+            existingMaterial.Subject = model.Subject;
+            existingMaterial.Class = model.Class;
+            existingMaterial.URL = model.URL; 
+
             if (ModelState.IsValid)
             {
+                
+                await context.SaveChangesAsync();
 
-                context.StudyMaterials.Update(studyMaterial);
-                context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
-            return View("Edit", studyMaterial);
+
+            
+            return View(model);
         }
 
         [HttpPost]
@@ -171,7 +175,7 @@ namespace LearningManagementSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            // Използваме async/await за по-добра производителност
+           
             var material = await context.StudyMaterials
                 .AsNoTracking() // Оптимизация за read-only
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -181,7 +185,7 @@ namespace LearningManagementSystem.Controllers
                 return NotFound();
             }
 
-            // Мапваме към ViewModel (същата логика като в Index)
+           
             var model = new StudyMaterialViewModel
             {
                 Id = material.Id,
@@ -202,8 +206,6 @@ namespace LearningManagementSystem.Controllers
             var materials = context.StudyMaterials.OrderBy(s => s.CreateDate).ToList();
             return View("Index", materials);
         }
-
-        // Action method to display study materials in descending order of creation date
         public IActionResult Descending()
         {
             var materials = context.StudyMaterials.OrderByDescending(s => s.CreateDate).ToList();
