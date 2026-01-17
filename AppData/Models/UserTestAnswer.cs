@@ -16,7 +16,7 @@ namespace AppData.Models
         public int QuestionId { get; set; }
         public Question Question { get; set; } = null!;
 
-        public int? SelectedOptionId { get; set; } // Кой отговор е избрал ученикът
+        public int? SelectedOptionId { get; set; }
         public Option? SelectedOption { get; set; }
     }
 }

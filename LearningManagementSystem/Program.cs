@@ -13,7 +13,6 @@ namespace LearningManagementSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
@@ -62,29 +61,7 @@ namespace LearningManagementSystem
                 await DbSeeder.SeedRolesAndAdminAsync(scope.ServiceProvider);
                 var serviceProvider = scope.ServiceProvider;
                 var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
-                //var dbSeeder = new DbSeeder();
-                //await dbSeeder.CreateMaterialSeeder(dbContext);
             }
-
-            //using (var scope = app.Services.CreateScope())
-            //{
-            //    var services = scope.ServiceProvider;
-
-            //    await DbSeeder.SeedRolesAndAdminAsync(services);
-
-            //    var context = services.GetRequiredService<ApplicationDbContext>();
-            //    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-
-            //    //var seeder = new DbSeeder();
-            //    //await seeder.CreateMaterialSeeder(context);
-            //}
-
-
-            //using (var scope = app.Services.CreateScope())
-            //{
-            //    await DbSeeder.SeedUsersAsync(scope.ServiceProvider);
-            //}
-
 
             app.Run();
         }

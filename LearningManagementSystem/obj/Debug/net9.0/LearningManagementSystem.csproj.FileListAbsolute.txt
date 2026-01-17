@@ -449,3 +449,7 @@ C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\LearningManagementSystem.pdb
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\LearningManagementSystem.genruntimeconfig.cache
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\ref\LearningManagementSystem.dll
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\compressed\td9nawl0tx-9514kd0v7o.gz
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\compressed\chz64tbc20-pl65t4nv4a.gz
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\compressed\1f7chyyhbk-1sip5azp8b.gz
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\obj\Debug\net9.0\compressed\r7digbqd7f-j1x1s8tx90.gz

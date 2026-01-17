@@ -84,7 +84,7 @@ namespace LearningManagementSystem.Areas.Identity.Pages.Account
             public string? FirstName { get; set; }
             public string? LastName { get; set; }
             public string? PhoneNumber { get; set; }
-            public int? Class { get; set; }
+            //public int? Class { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -131,7 +131,7 @@ namespace LearningManagementSystem.Areas.Identity.Pages.Account
                 user.PhoneNumber = Input.PhoneNumber;
                 user.Name = Input.Name;
                 user.Email = Input.Email;
-                user.Class = Input.Class;
+                //user.Class = Input.Class;
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

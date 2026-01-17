@@ -1,0 +1,29 @@
+﻿.text-purple {
+    color: #6f42c1;
+}
+
+.bg-orange-soft {
+    background-color: #fff3e0;
+}
+
+.border-orange {
+    border-color: #e67e22 !important;
+}
+
+.btn-orange {
+    background-color: #e67e22;
+    color: white;
+    border: none;
+}
+
+    .btn-orange:hover {
+        background-color: #d35400;
+        color: white;
+    }
+
+.detail-card {
+    border-radius: 15px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}

@@ -17,13 +17,11 @@ namespace DataContext
             using (var context = new ApplicationDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
-                // Проверка дали вече има добавени данни
                 if (context.StudyMaterials.Any())
                 {
-                    return;   // Базата данни е вече попълнена с данни
+                    return; 
                 }
 
-                // Добавяне на примерни учебни материали
                 context.StudyMaterials.AddRange(
                     new StudyMaterial
                     {
@@ -31,7 +29,7 @@ namespace DataContext
                         Category = Category.NewMaterial,
                         TypeFile = TypeFile.Table,
                         Subject = "Математика",
-                        Class = 10,
+                        //Class = 10,
                         Description = "Примерно описание на учебен материал 1",
                         CreatedByName = "admin",
                         CreateDate = DateTime.Now
@@ -42,7 +40,7 @@ namespace DataContext
                         Category = Category.Homework,
                         TypeFile = TypeFile.Table,
                         Subject = "Физика",
-                        Class = 11,
+                        //Class = 11,
                         Description = "Примерно описание на учебен материал 2",
                         CreatedByName = "Pavkata",
                         CreateDate = DateTime.Now
@@ -53,7 +51,7 @@ namespace DataContext
                         Category = Category.NewMaterial,
                         TypeFile = TypeFile.Table,
                         Subject = "История",
-                        Class = 10,
+                        //Class = 10,
                         Description = "Примерно описание на учебен материал 2",
                         CreatedByName = "admin",
                         CreateDate = DateTime.Now
@@ -63,7 +61,7 @@ namespace DataContext
                         Category = Category.Homework,
                         TypeFile = TypeFile.Table,
                         Subject = "История",
-                        Class = 9,
+                        //Class = 9,
                         Description = "Примерно описание на учебен материал 2",
                         CreatedByName = "admin",
                         CreateDate = DateTime.Now
@@ -74,7 +72,7 @@ namespace DataContext
                         Category = Category.ForTesting,
                         TypeFile = TypeFile.Audio,
                         Subject = "Български език",
-                        Class = 4,
+                        //Class = 4,
                         Description = "Примерно описание на учебен материал 2",
                         CreatedByName = "Pavkata",
                         CreateDate = DateTime.Now
@@ -85,14 +83,13 @@ namespace DataContext
                         Category = Category.NewMaterial,
                         TypeFile = TypeFile.Diagram,
                         Subject = "Англйски език",
-                        Class = 7,
+                        //Class = 7,
                         Description = "Примерно описание на учебен материал 2",
                         CreatedByName = "admin",
                         CreateDate = DateTime.Now
                     }
                 );
 
-                // Записване на промените в базата данни
                 context.SaveChanges();
             }
         }

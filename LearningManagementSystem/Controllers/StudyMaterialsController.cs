@@ -12,10 +12,8 @@ using System.Security.Claims;
 
 namespace LearningManagementSystem.Controllers
 {
-    //[Authorize]
     public class StudyMaterialsController : Controller
     {
-        //[Authorize]
         private readonly ApplicationDbContext context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IFileService _fileService;
@@ -28,38 +26,26 @@ namespace LearningManagementSystem.Controllers
             this._fileService = fileService;
         }
 
-
-        //public async Task<IActionResult> Index(StudyMaterialFilterModel filter)
-        //{
-        //    var model = await _service.GetFilteredMaterials(filter);
-
-        //    return View(model);
-        //}
         [HttpGet]
         public async Task<IActionResult> Index(StudyMaterialFilterModel filterModel, int? pageNumber)
         {
-            // 1. Настройваме страниците във филтър модела, преди да го подадем на сервиза
             filterModel.PageNumber = pageNumber ?? 1;
-            filterModel.PageSize = 6; // Тук задаваш по колко елемента на страница искаш
+            filterModel.PageSize = 6; 
 
-            // 2. Извикваме правилния метод от твоя сървис
             var materials = await _service.GetFilteredMaterials(filterModel);
 
-            // 3. Прехвърляме данните към ViewModel-а за изгледа
-            // Внимавай с имената на свойствата тук (напаснал съм ги спрямо твоя сървис)
             var viewModelItems = materials.Select(m => new StudyMaterialViewModel
             {
                 Id = m.Id,
                 Title = m.Title,
                 Description = m.Description,
                 Category = m.Category,
-                CreatedOn = m.CreateDate,   // В твоя модел е CreateDate
+                CreatedOn = m.CreateDate,   
                 TypeFile = m.TypeFile,
-                FileName = m.FileTitle,     // В твоя модел е FileTitle
+                FileName = m.FileTitle,    
                 FileUrl = $"/Uploads/{m.FileTitle}"
             }).ToList();
 
-            // 4. Създаваме резултата
             var result = new PaginatedResult<StudyMaterialViewModel>
             {
                 Items = viewModelItems,
@@ -101,7 +87,6 @@ namespace LearningManagementSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            // Използваме FindAsync за по-добро бързодействие
             var studyMaterial = await context.StudyMaterials.FindAsync(id);
 
             if (studyMaterial == null)
@@ -142,7 +127,7 @@ namespace LearningManagementSystem.Controllers
             existingMaterial.Category = model.Category;
             existingMaterial.TypeFile = model.TypeFile;
             existingMaterial.Subject = model.Subject;
-            existingMaterial.Class = model.Class;
+            //existingMaterial.Class = model.Class;
             existingMaterial.URL = model.URL; 
 
             if (ModelState.IsValid)
@@ -195,7 +180,6 @@ namespace LearningManagementSystem.Controllers
                 CreatedOn = material.CreateDate,
                 TypeFile = material.TypeFile,
                 FileName = material.FileTitle,
-                // Тук конструираме пътя към файла, както в Index метода
                 FileUrl = $"/Uploads/{material.FileTitle}"
             };
 

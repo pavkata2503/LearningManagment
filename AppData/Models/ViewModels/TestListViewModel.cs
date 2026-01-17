@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace AppData.Models.ViewModels
 {
-    // За списъка с всички тестове
     public class TestListViewModel
     {
         public int MaterialId { get; set; }

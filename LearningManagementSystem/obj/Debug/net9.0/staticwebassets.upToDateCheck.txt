@@ -1,4 +1,5 @@
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\css\register.css
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
@@ -22,6 +23,7 @@ C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\css\study_material_list.css
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\jquery\dist\jquery.min.js
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
@@ -51,10 +53,12 @@ C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\css\login.css
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\css\home.css
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
+C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\css\study_material_detail.css
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\css\site.css
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\lib\jquery\LICENSE.txt
@@ -65,8 +69,12 @@ C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\
 C:\Users\pavka\OneDrive\Documents\Програвиране C#\LearningManagment\LearningManagementSystem\wwwroot\js\site.js
 wwwroot\css\filter.css
 wwwroot\css\home.css
+wwwroot\css\login.css
 wwwroot\css\pagination.css
+wwwroot\css\register.css
 wwwroot\css\site.css
+wwwroot\css\study_material_detail.css
+wwwroot\css\study_material_list.css
 wwwroot\favicon.ico
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap.css

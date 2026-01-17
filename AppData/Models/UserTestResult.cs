@@ -13,7 +13,7 @@ namespace AppData.Models
         public ApplicationUser? User { get; set; }
 
         public int StudyMaterialId { get; set; }
-        public int Score { get; set; } // Например брой точки или процент
+        public int Score { get; set; } 
         public DateTime CompletedOn { get; set; } = DateTime.Now;
         public StudyMaterial StudyMaterial { get; set; } = null!;
         public List<UserTestAnswer> Answers { get; set; } = new();

@@ -20,6 +20,6 @@ namespace AppData.Models
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         public DateTime SendDate { get; set; }
-        public bool IsRead { get; set; } = false; // Поле за статус на прочитане
+        public bool IsRead { get; set; } = false; 
     }
 }

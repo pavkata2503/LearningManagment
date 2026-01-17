@@ -207,9 +207,6 @@ namespace DataContext.Migrations
                     b.Property<int>("Category")
                         .HasColumnType("int");
 
-                    b.Property<int>("Class")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 

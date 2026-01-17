@@ -1,41 +1,4 @@
-﻿@* @using AppData.Models.ViewModels
-@model TestResultViewModel
-
-<div class="container py-5">
-    <div class="row justify-content-center text-center">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-body py-5">
-                    <div class="display-1 mb-4 text-primary">@Model.CorrectAnswers / @Model.TotalQuestions</div>
-                    <h2 class="mb-3">Резултат за: @Model.MaterialTitle</h2>
-
-                    <div class="progress mb-4" style="height: 30px;">
-                        <div class="progress-bar @(Model.Percentage >= 50 ? "bg-success" : "bg-danger")"
-                             style="width: @Model.Percentage%">
-                            @Model.Percentage.ToString("0")%
-                        </div>
-                    </div>
-
-                    @if (Model.Percentage >= 50)
-                    {
-                        <h4 class="text-success">Поздравления! Преминахте теста успешно.</h4>
-                    }
-                    else
-                    {
-                        <h4 class="text-danger">Опитайте отново, за да подобрите резултата си.</h4>
-                    }
-
-                    <div class="mt-5">
-                        <a asp-action="Index" class="btn btn-primary">Към всички тестове</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> *@
-
-
-@model AppData.Models.ViewModels.TestResultViewModel
+﻿@model AppData.Models.ViewModels.TestResultViewModel
 
 <div class="container mt-5">
     @if (User.IsInRole("Teacher"))
@@ -86,17 +49,16 @@
                     {
                         string listClass = "list-group-item";
 
-                        // Логика за оцветяване
                         bool isSelected = question.UserSelectedOptionId == option.Id;
                         bool isCorrect = option.IsCorrect;
 
                         if (isCorrect)
                         {
-                            listClass += " list-group-item-success"; // Зелено за верен отговор
+                            listClass += " list-group-item-success"; 
                         }
                         else if (isSelected && !isCorrect)
                         {
-                            listClass += " list-group-item-danger"; // Червено ако сме сгрешили
+                            listClass += " list-group-item-danger"; 
                         }
 
                         <li class="@listClass d-flex justify-content-between align-items-center">

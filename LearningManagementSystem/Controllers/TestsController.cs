@@ -20,30 +20,7 @@ namespace LearningManagementSystem.Controllers
             _context = context;
         }
 
-        //// Показване на теста
-        //public async Task<IActionResult> Solve(int materialId)
-        //{
-        //    var questions = await _context.Questions
-        //        .Include(q => q.Options)
-        //        .Where(q => q.StudyMaterialId == materialId)
-        //        .ToListAsync();
-
-        //    var model = new SolveTestViewModel
-        //    {
-        //        MaterialId = materialId,
-        //        Questions = questions.Select(q => new QuestionViewModel
-        //        {
-        //            QuestionId = q.Id,
-        //            Content = q.Content,
-        //            Type = q.Type,
-        //            Options = q.Options.Select(o => new OptionViewModel { Id = o.Id, Text = o.Text }).ToList()
-        //        }).ToList()
-        //    };
-
-        //    return View(model);
-        //}
-
-        // Изпращане на отговорите
+        
         [HttpPost]
         public async Task<IActionResult> Submit(SolveTestViewModel model)
         {
@@ -58,11 +35,6 @@ namespace LearningManagementSystem.Controllers
                 {
                     if (dbQuestion.Options.Any(o => o.Id == q.SelectedOptionId && o.IsCorrect))
                         score++;
-                }
-                else // Отворен отговор - тук логиката може да е по-сложна (ръчна проверка или точен текст)
-                {
-                    // Пример: Проверка за точно съвпадение (не е препоръчително за сложни изречения)
-                    // Обикновено отворените отговори се проверяват от учител.
                 }
             }
 
@@ -83,7 +55,6 @@ namespace LearningManagementSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(int? materialId)
         {
-            // Взимаме всички материали и маркираме избрания, ако има подадено ID
             var materials = await _context.StudyMaterials
                 .Select(m => new SelectListItem
                 {
@@ -102,7 +73,6 @@ namespace LearningManagementSystem.Controllers
             return View(model);
         }
 
-        // POST: Записване на теста
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateTestViewModel model)
@@ -119,7 +89,7 @@ namespace LearningManagementSystem.Controllers
                     };
 
                     _context.Questions.Add(question);
-                    await _context.SaveChangesAsync(); // Записваме, за да получим ID на въпроса
+                    await _context.SaveChangesAsync(); 
 
                     if (qModel.Type == QuestionType.MultipleChoice)
                     {
@@ -143,11 +113,10 @@ namespace LearningManagementSystem.Controllers
 
         }
 
-        // 1. Списък на всички налични тестове
         public async Task<IActionResult> Index()
         {
             var tests = await _context.StudyMaterials
-                .Where(m => _context.Questions.Any(q => q.StudyMaterialId == m.Id)) // Вземи само материали, които имат въпроси
+                .Where(m => _context.Questions.Any(q => q.StudyMaterialId == m.Id)) 
                 .Select(m => new TestListViewModel
                 {
                     MaterialId = m.Id,
@@ -159,7 +128,6 @@ namespace LearningManagementSystem.Controllers
             return View(tests);
         }
 
-        // 2. Страница за решаване (GET)
         public async Task<IActionResult> Solve(int id)
         {
             var material = await _context.StudyMaterials
@@ -189,14 +157,12 @@ namespace LearningManagementSystem.Controllers
             return View(model);
         }
 
-        // 3. Обработка на отговорите (POST) - ПРОМЕНЕН
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Solve(SolveTestViewModel model)
         {
             int correctCount = 0;
             
-            // Взимаме въпросите от базата, за да сме сигурни, че проверяваме правилно
             var questions = await _context.Questions
                 .Include(q => q.Options)
                 .Where(q => q.StudyMaterialId == model.MaterialId)
@@ -209,7 +175,6 @@ namespace LearningManagementSystem.Controllers
                 var dbQ = questions.FirstOrDefault(q => q.Id == submittedQ.QuestionId);
                 if (dbQ == null) continue;
 
-                // Създаваме запис за отговора на потребителя
                 var userAnswer = new UserTestAnswer
                 {
                     QuestionId = dbQ.Id,
@@ -226,14 +191,13 @@ namespace LearningManagementSystem.Controllers
                 }
             }
 
-            // Записваме резултата + детайлните отговори
             var result = new UserTestResult
             {
                 UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
                 StudyMaterialId = model.MaterialId,
                 Score = correctCount,
                 CompletedOn = DateTime.Now,
-                Answers = userAnswersList // Entity Framework автоматично ще ги свърже
+                Answers = userAnswersList 
             };
 
             _context.UserTestResults.Add(result);
@@ -242,22 +206,19 @@ namespace LearningManagementSystem.Controllers
             return RedirectToAction("Result", new { id = result.Id });
         }
 
-        // 4. Показване на крайния резултат (За ученика ИЛИ за учителя)
         public async Task<IActionResult> Result(int id)
         {
             var result = await _context.UserTestResults
                 .Include(r => r.StudyMaterial)
-                .Include(r => r.User) // ВАЖНО: Взимаме и потребителя (ученика)
+                .Include(r => r.User) 
                 .Include(r => r.Answers)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
             if (result == null) return NotFound();
 
-            // СИГУРНОСТ: Проверка дали потребителят има право да вижда този резултат
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             bool isTeacher = User.IsInRole("Teacher");
 
-            // Ако не си учителят и не си авторът на теста -> Забранено
             if (result.UserId != currentUserId && !isTeacher)
             {
                 return Forbid();
@@ -271,7 +232,7 @@ namespace LearningManagementSystem.Controllers
             var model = new TestResultViewModel
             {
                 MaterialTitle = result.StudyMaterial.Title,
-                StudentUsername = result.User?.UserName ?? "Неизвестен", // Попълваме името
+                StudentUsername = result.User?.UserName ?? "Неизвестен", 
                 TotalQuestions = questions.Count,
                 CorrectAnswers = result.Score,
                 QuestionsReview = questions.Select(q => new QuestionReviewViewModel
@@ -290,7 +251,6 @@ namespace LearningManagementSystem.Controllers
             return View(model);
         }
 
-        // 5. НОВО: Статистика за учители
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> AllStudentResults()
         {
@@ -304,11 +264,10 @@ namespace LearningManagementSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Teacher")] // Само учители могат да трият
+        [Authorize(Roles = "Teacher")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int materialId)
         {
-            // 1. Намираме всички въпроси за този материал
             var questions = await _context.Questions
                 .Where(q => q.StudyMaterialId == materialId)
                 .ToListAsync();
@@ -318,13 +277,10 @@ namespace LearningManagementSystem.Controllers
                 return NotFound();
             }
 
-            // 2. Изтриваме ги наведнъж
             _context.Questions.RemoveRange(questions);
 
-            // 3. Запазваме промените
             await _context.SaveChangesAsync();
 
-            // Връщаме се към списъка с тестове
             return RedirectToAction(nameof(Index));
         }
     }

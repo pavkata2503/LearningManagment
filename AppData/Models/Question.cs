@@ -13,9 +13,9 @@ namespace AppData.Models
         public string Content { get; set; } = string.Empty;
         public QuestionType Type { get; set; }
 
-        public int StudyMaterialId { get; set; } // Свързваме теста с учебен материал или отделен обект Test
+        public int StudyMaterialId { get; set; } 
         public StudyMaterial? StudyMaterial { get; set; }
 
-        public List<Option> Options { get; set; } = new(); // За избираеми отговори
+        public List<Option> Options { get; set; } = new();
     }
 }

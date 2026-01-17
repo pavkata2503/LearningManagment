@@ -36,9 +36,9 @@ namespace AppData.Models
         [Required(ErrorMessage = "Предметът е задължителен")]
         [StringLength(50, ErrorMessage = "Описанието не трябва да надвишава 50 знака")]
         public string Subject { get; set; }
-        [Required(ErrorMessage = "Класът е задължителен")]
-        [Range(1, 12, ErrorMessage = "Класът е между 1 и 12")]
-        public int Class { get; set; }
+        //[Required(ErrorMessage = "Класът е задължителен")]
+        //[Range(1, 12, ErrorMessage = "Класът е между 1 и 12")]
+        //public int Class { get; set; }
         public DateTime CreateDate { get; set; }
         public string? PhoneNumber { get; set; }
 

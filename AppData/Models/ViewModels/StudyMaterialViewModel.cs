@@ -9,9 +9,9 @@ namespace AppData.Models.ViewModels
         public string Title { get; set; }
         public string Description { get; set; }
         public Category Category { get; set; }
-        public DateTime CreatedOn { get; set; } // Map-ваме го от CreateDate
+        public DateTime CreatedOn { get; set; }
         public TypeFile TypeFile { get; set; }
-        public string FileName { get; set; }    // Map-ваме го от FileTitle
-        public string FileUrl { get; set; } // Това е URl на снимаката
+        public string FileName { get; set; }   
+        public string FileUrl { get; set; } 
     }
 }

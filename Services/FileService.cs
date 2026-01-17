@@ -23,7 +23,6 @@ namespace Services
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);
 
-                // Allowed extensions
                 var ext = Path.GetExtension(imageFile.FileName).ToLower();
                 var allowedExtensions = new[]
                 {

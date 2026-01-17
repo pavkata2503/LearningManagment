@@ -14,8 +14,7 @@ namespace AppData.Models.ViewModels
         public QuestionType Type { get; set; }
         public List<OptionViewModel> Options { get; set; } = new();
 
-        // Полета за отговор от потребителя
-        public int? SelectedOptionId { get; set; } // За MultipleChoice
-        public string? OpenAnswer { get; set; }    // За OpenEnded
+        public int? SelectedOptionId { get; set; } 
+        public string? OpenAnswer { get; set; }   
     }
 }

@@ -14,7 +14,6 @@ namespace AppData.Models.ViewModels
         public int CorrectAnswers { get; set; }
         public double Percentage => TotalQuestions > 0 ? (double)CorrectAnswers / TotalQuestions * 100 : 0;
 
-        // НОВО: Списък с въпроси за преглед
         public List<QuestionReviewViewModel> QuestionsReview { get; set; } = new();
     }
 }

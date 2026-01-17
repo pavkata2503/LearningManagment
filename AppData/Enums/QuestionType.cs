@@ -8,7 +8,7 @@ namespace AppData.Enums
 {
     public enum QuestionType
     {
-        MultipleChoice = 0, // Избираем отговор
-        OpenEnded = 1       // Отворен отговор
+        MultipleChoice = 0,
+        OpenEnded = 1     
     }
 }

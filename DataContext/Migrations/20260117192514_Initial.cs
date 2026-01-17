@@ -199,7 +199,6 @@ namespace DataContext.Migrations
                     AppliationUserId = table.Column<int>(type: "int", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Subject = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Class = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedByName = table.Column<string>(type: "nvarchar(max)", nullable: false),

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataContext.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260110115623_Initial")]
+    [Migration("20260117192514_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -208,9 +208,6 @@ namespace DataContext.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Category")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Class")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateDate")

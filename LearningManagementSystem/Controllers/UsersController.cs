@@ -28,7 +28,6 @@ namespace LearningManagementSystem.Controllers
             return View(users);
         }
 
-        // Action to show form to edit user
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {

@@ -21,10 +21,9 @@ namespace LearningManagementSystem.Controllers
             _userManager = userManager;
         }
 
-        // MessagesController.cs
 
         public async Task<IActionResult> Index(
-            string? receiver, // Забележка: Тук може би искаш да филтрираш по подател (Sender), а не Receiver, тъй като потребителят вижда своите входящи, но нека го оставим както е по твоята логика
+            string? receiver, 
             bool? isRead,
             int? pageSize,
             int? pageNumber)
@@ -36,18 +35,15 @@ namespace LearningManagementSystem.Controllers
             int size = pageSize ?? 5;
             int page = pageNumber ?? 1;
 
-            // Взимаме съобщенията (твоята логика си е супер тук)
             var result = await _messageService.GetMessagesAsync(
                 user.Email,
-                receiver, // Тук се ползва аргумента receiver
+                receiver, 
                 isRead,
                 size,
                 page);
 
-            // --- НОВО: Запазваме текущите филтри за View-то ---
             ViewBag.CurrentReceiver = receiver;
-            ViewBag.CurrentIsRead = isRead; // Това ни трябва за Dropdown-а
-                                            // --------------------------------------------------
+            ViewBag.CurrentIsRead = isRead; 
 
             ViewBag.TotalPages = result.TotalPages;
             ViewBag.CurrentPage = result.CurrentPage;
@@ -63,32 +59,17 @@ namespace LearningManagementSystem.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return Unauthorized();
 
-            // 1. Създаваме празен списък за хората, на които може да се пише
             IList<ApplicationUser> availableReceivers = new List<ApplicationUser>();
 
-            // 2. Проверяваме ролята на текущия потребител
-            // ВНИМАНИЕ: Увери се, че имената на ролите ("Student", "Teacher") съвпадат точно с тези в базата ти данни!
-            if (await _userManager.IsInRoleAsync(user, "Student")) // Ако е ученик
+            if (await _userManager.IsInRoleAsync(user, "Student"))
             {
-                // Взимаме всички учители
                 availableReceivers = await _userManager.GetUsersInRoleAsync("Teacher");
             }
-            else if (await _userManager.IsInRoleAsync(user, "Teacher")) // Ако е учител
+            else if (await _userManager.IsInRoleAsync(user, "Teacher")) 
             {
-                // Взимаме всички ученици
                 availableReceivers = await _userManager.GetUsersInRoleAsync("Student");
             }
-            else
-            {
-                // Опционално: Ако е администратор, може би искаш да вижда всички?
-                // Засега оставяме списъка празен или може да заредиш всички потребители.
-            }
 
-            // 3. Създаваме SelectList за падащото меню
-            // Първият параметър е списъкът, вторият е какво да запишем в базата (Email), третият е какво да вижда потребителят (пак Email или Name)
-            // Четвъртият параметър (replyTo) избира автоматично правилния човек, ако си натиснал "Отговор"
-            //ViewBag.PotentialReceivers = new SelectList(availableReceivers, "Email", "Email", replyTo);
-            // "Email" е стойността, която се праща, "Name" (или както е пропъртито за име в ApplicationUser) е това, което се вижда
             ViewBag.PotentialReceivers = new SelectList(availableReceivers, "Email", "Name", replyTo);
 
             var model = new Message();
@@ -133,7 +114,6 @@ namespace LearningManagementSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Този метод отваря съобщението и го прави "Прочетено"
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
